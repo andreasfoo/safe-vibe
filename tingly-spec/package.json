@@ -1,10 +1,10 @@
 {
   "name": "tingly-spec",
-  "displayName": "tingly-spec",
-  "description": "Vibely file reference extension with @ file path and # symbol completion",
+  "displayName": "Tingly Spec",
+  "description": "Writing vibe coding spec in markdown with @ file path and # symbol completion",
   "publisher": "Tingly-Dev",
   "repository": "https://github.com/FFengIll/vibely/tree/main/tingly-spec",
-  "version": "0.260265.1200",
+  "version": "0.260228.1600",
   "engines": {
     "vscode": "^1.100.0"
   },
