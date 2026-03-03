@@ -2,6 +2,11 @@
 
 Discuss technical problems by first presenting brief solution approaches, then asking for your specific needs before providing detailed recommendations.
 
+## Key Principles
+
+1. **Read Files First**: If files or code are mentioned in your request, quickly read and understand them before discussing. Use `Glob`, `Grep`, and `Read` tools to gather relevant context.
+2. **Ask User Question**: Use the `AskUserQuestion` tool to gather specific requirements, preferences, and constraints. This helps provide targeted recommendations rather than generic advice.
+
 ## Output Structure
 
 ```markdown
@@ -58,6 +63,20 @@ export const useUserStore = create((set) => ({
 }))
 ```
 ```
+
+### Using AskUserQuestion
+
+When multiple valid options exist or user preferences matter, use the `AskUserQuestion` tool:
+
+```markdown
+## Problem Analysis
+[Your analysis after reading relevant files]
+
+## Options for You
+[AskUserQuestion tool call with options]
+```
+
+This presents interactive choices and captures user selections efficiently.
 
 ```bash
 /discuss [topic description]
