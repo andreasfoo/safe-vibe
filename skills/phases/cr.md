@@ -1,233 +1,138 @@
 # /cr
 
-/cr performs code review to assess code quality, maintainability, and adherence to best practices.
+/cr performs code review with a specific purpose or focus area.
 
-**Purpose**: Ensure high-quality, maintainable code
+**Purpose**: Targeted code quality assessment
 
 ## Usage
 
 ```
-/sdlc cr [files_or_directories]
+/sdlc cr [what to review]
 ```
 
-**Arguments:**
-- `files_or_directories`: Specific files or directories to review (optional - reviews changes if not provided)
+Describe what you want to review in natural language:
 
-**Examples:**
-- `/sdlc cr` - Review current changes
-- `/sdlc cr src/auth` - Review auth module
-- `/sdlc cr src/auth/login.ts src/auth/register.ts` - Review specific files
+- `/sdlc cr` - Review staged changes
+- `/sdlc cr unstaged changes`
+- `/sdlc cr src/auth for security issues`
+- `/sdlc cr changes vs main focusing on performance`
+- `/sdlc cr src/api architecture`
+- `/sdlc cr src/auth/login.ts type safety`
 
-## Review Categories
+## Review Types
 
-### 1. Best Practices
-**Purpose**: Verify adherence to coding best practices
+### Pre-PR Review (Gatekeeper)
+Review before creating PR to catch issues early.
+- Run on: Staged or uncommitted changes
+- Focus: All categories, blocking on 🚨 Critical issues
+- Output: Must pass before proceeding to `/sdlc commit`
 
-**Checks**:
-- Error handling implementation
-- Input validation presence
-- Resource cleanup (connections, file handles)
-- Async/await proper usage
-- Memory leak prevention
+### Post-Commit Review (Retro)
+Review after merge for learning and documentation.
+- Run on: Committed changes, branch diffs
+- Focus: Patterns, learnings, archive-worthy insights
+- Output: Saved to `docs/cr/` for team reference
 
-**Output example**:
-```
-━━━ Best Practices ━━━
-✓ Error handling implemented
-✓ Input validation present
-⚠ Consider adding rate limiting to auth endpoints
-⚠ Missing timeout on database queries
-```
+### Targeted Review
+Deep dive into a specific concern.
+- Run on: Any scope (file, dir, module)
+- Focus: Single area (security, performance, etc.)
+- Output: Specific findings and recommendations
 
-### 2. Code Style
-**Purpose**: Ensure consistent, readable code
+## Review Scope
 
-**Checks**:
-- Naming conventions
-- Code formatting
-- Comment quality
-- File organization
-- Import structure
+### Code Quality
+- Clean, maintainable, and well-structured code
+- Proper naming conventions
+- Reasonable function/class complexity
+- Minimal code duplication
 
-**Output example**:
-```
-━━━ Code Style ━━━
-✓ Follows project conventions
-✓ Naming is consistent
-✓ Proper comments and documentation
-⚠ Some functions are too long
-  - authenticateUser(): 67 lines (target: <50)
-```
+### Best Practices
+- Error handling and edge cases
+- Input validation
+- Resource cleanup (connections, file handles, defer)
+- Proper async/await usage
 
-### 3. Architecture
-**Purpose**: Assess structural design
-
-**Checks**:
-- Separation of concerns
-- Coupling between modules
-- Abstraction levels
-- Design pattern usage
-- Module boundaries
-
-**Output example**:
-```
-━━━ Architecture ━━━
-✓ Separation of concerns
-✓ No tight coupling
-⚠ Service layer could be extracted for better testability
-✓ Clear module boundaries
-```
-
-### 4. Maintainability
-**Purpose**: Evaluate long-term maintainability
-
-**Checks**:
-- Code complexity
-- Function length
-- Duplication
-- Test coverage
-- Documentation
-
-**Output example**:
-```
-━━━ Maintainability ━━━
-✓ Code is well commented
-✓ Functions are focused
-⚠ authenticateUser() is too long (67 lines, target: <50)
-⚠ Some duplicated validation logic
-✓ Good test coverage
-```
-
-### 5. Performance
-**Purpose**: Identify performance concerns
-
-**Checks**:
+### Performance
 - Algorithm efficiency
-- Database query optimization
+- Database query optimization (N+1 problems)
 - Caching opportunities
-- Unnecessary re-renders
-- Bundle size impact
+- Bundle size considerations
 
-**Output example**:
+### Security
+- Common vulnerabilities (XSS, SQL injection, etc.)
+- Authentication/authorization issues
+- Data sanitization
+- Secrets management
+
+### Type Safety
+- For TypeScript/Go: type correctness
+- Null/undefined handling
+- Proper interface usage
+
+### Language-Specific Checks
+
+#### TypeScript/JavaScript
+- Proper type annotations
+- Null/undefined handling
+- Async/await error handling
+- Memory leaks (event listeners, subscriptions)
+- Bundle size considerations
+
+#### Go
+- Error handling patterns (don't ignore errors)
+- Goroutine safety and concurrency issues
+- Resource cleanup (defer, close)
+- Effective use of interfaces
+- Package structure and exports
+
+## Output Format
+
 ```
-━━━ Performance ━━━
-⚠ N+1 query problem in user listing
-✓ Efficient pagination implementation
-⚠ Missing indexes on frequently queried fields
-✓ Appropriate use of caching
-```
+## Code Review Summary
 
-## Full Code Review Report Example
+**Target**: [files/changes reviewed]
+**Files Changed**: [number]
+**Total Issues**: [number]
 
-```
-Code Review Results:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### Issues Found (N issues)
 
-━━━ Files Reviewed ━━━
-- src/auth/login.ts
-- src/auth/register.ts
-- src/auth/service.ts
-- src/auth/middleware.ts
+[1] 🚨 Issue description - [file:line](file#line)
+     - Impact: [description]
+     - Suggestion: [specific fix]
 
-━━━ Best Practices ━━━
-✓ Error handling implemented
-✓ Input validation present
-⚠ Consider adding rate limiting to auth endpoints
-⚠ Missing timeout on database queries
-✓ Proper async/await usage
-✓ Resources cleaned up properly
+[2] ⚠️ Issue description - [file:line](file#line)
+     - Impact: [description]
+     - Suggestion: [specific fix]
 
-━━━ Code Style ━━━
-✓ Follows project conventions
-✓ Naming is consistent (camelCase for vars, PascalCase for types)
-✓ Proper comments and documentation
-⚠ Some functions are too long
-  - authenticateUser(): 67 lines (target: <50)
-  - registerUser(): 58 lines (target: <50)
+[3] 💡 Suggestion - [file:line](file#line)
+     - Suggestion: [specific improvement]
 
-━━━ Architecture ━━━
-✓ Separation of concerns (routes → controller → service → repository)
-✓ No tight coupling between modules
-⚠ Service layer could be extracted for better testability
-  -建议: Move business logic from controller to AuthService
-✓ Clear module boundaries
-✓ Dependency injection pattern used
+### ✅ Strengths
+- [Good practice 1]
+- [Good practice 2]
 
-━━━ Maintainability ━━━
-✓ Code is well commented
-✓ Functions are focused on single responsibility
-⚠ authenticateUser() is too long (67 lines, target: <50)
-⚠ Some duplicated validation logic
-  -建议: Extract to validateUserCredentials() helper
-✓ Good test coverage (87%)
-✓ Clear variable names
+### Overall Assessment
+[Brief summary and recommendations]
 
-━━━ Performance ━━━
-⚠ N+1 query problem in user listing
-  -建议: Use JOIN or data loader
-✓ Efficient pagination implementation
-⚠ Missing indexes on frequently queried fields
-  -建议: Add index on users.email, users.created_at
-✓ Appropriate use of caching (Redis for sessions)
-
-━━━ Security ━━━
-✓ Passwords hashed with bcrypt
-✓ SQL injection prevention (parameterized queries)
-✓ XSS prevention (input sanitization)
-⚠ Consider adding CSRF protection
-✓ Rate limiting on auth endpoints
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Suggestions:
-Priority - HIGH:
-1. Fix N+1 query in user listing
-   - Use JOIN or data loader pattern
-
-2. Add database indexes
-   - users.email (for login lookups)
-   - users.created_at (for sorting)
-
-Priority - MEDIUM:
-3. Refactor long functions
-   - Break down authenticateUser() into smaller functions
-   - Break down registerUser() into smaller functions
-
-4. Extract validation logic
-   - Create validateUserCredentials() helper
-
-5. Add CSRF protection
-   - Implement CSRF tokens for state-changing operations
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Overall: APPROVED with suggestions ✓
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Strengths:
-- Good separation of concerns
-- Solid error handling
-- Strong security practices
-- Good test coverage
-
-Areas for Improvement:
-- Function length (some >50 lines)
-- Query optimization (N+1 problem)
-- Code duplication (validation logic)
+---
+**💡 Tip**: Use issue numbers `[1]`, `[2]`, `[3]`... to request specific fixes
+**💡 Legend**: 🚨 Critical | ⚠️ Major | 💡 Minor
 ```
 
-## Code Review Output
+## Severity Levels
 
-**Always save code review reports** to `docs/cr/YYYYMMDD-[name]-review.md` where:
-- `YYYYMMDD` - Current date timestamp
-- `[name]` - Feature or component name
+- 🚨 **Critical**: Must fix (security, crashes, data loss)
+- ⚠️ **Major**: Should fix (performance, maintainability, bugs)
+- 💡 **Minor**: Nice to fix (style, minor improvements)
 
 ## Best Practices
 
-### Conducting Reviews
-- **Be constructive**: Focus on improvement, not criticism
-- **Explain why**: Provide context for suggestions
-- **Prioritize**: Mark issues as high/medium/low priority
-- **Be specific**: Point to exact code locations
+### Review Process
+1. **Read & Understand**: Thoroughly read the code to understand its purpose
+2. **Identify Issues**: Categorize findings by severity
+3. **Provide Solutions**: For each issue, suggest specific improvements
+4. **Positive Feedback**: Acknowledge good patterns and practices used
 
 ### What to Look For
 - **Correctness**: Does the code do what it's supposed to?
@@ -236,31 +141,51 @@ Areas for Improvement:
 - **Performance**: Are there obvious performance issues?
 - **Security**: Are there security vulnerabilities?
 
-### Review Process
-1. **Understand the context**: Read the spec or PR description
-2. **Review the code**: Check each category systematically
-3. **Test the code**: Run tests, verify functionality
-4. **Provide feedback**: Clear, actionable suggestions
+### Output Requirements
+- Use severity levels (🚨/⚠️/💡)
+- Number issues for easy reference [1], [2], [3]...
+- Include clickable file links [file:line](file#line)
+- Be specific and actionable
 
 ## Completion Conditions
 
+### Pre-PR Review
 - [ ] All review categories assessed
-- [ ] Code review report saved to `docs/cr/`
-- [ ] Suggestions prioritized
-- [ ] Either:
-  - [ ] Code approved (PASS), or
-  - [ ] Issues documented with action plan (FAIL with fixes required)
+- [ ] Issues numbered with severity levels
+- [ ] No 🚨 Critical issues (blocking)
+- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
+- [ ] Code approved (PASS)
+
+### Post-Commit Review
+- [ ] Specified focus area assessed
+- [ ] Key findings documented
+- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
+
+### Targeted Review
+- [ ] Focus area deeply assessed
+- [ ] Specific findings with recommendations
+- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
 
 ## State Integration
 
+**Pre-PR Review** (workflow phase):
 - **Updates**: `sdlc.phase` = `cr`
 - **Creates**: Code review report in `docs/cr/`
 - **Requires**: `secure` phase completed
 - **Next**: Proceed to `/sdlc commit` phase
 
+**Post-Commit / Targeted Review** (standalone):
+- **Creates**: Code review report in `docs/cr/`
+- **No state updates**: Can be run anytime
+
 ## Related Skills
 
+**Workflow Phase**:
 - `/sdlc secure` - Prerequisite: security checks completed
 - `/sdlc coding` - The code being reviewed
 - `/sdlc commit` - Next phase after approval
 - `/sdlc test` - Tests that should pass
+
+**Standalone Use**:
+- `/sdlc cr src/auth for security` - Security-focused review
+- `/sdlc cr changes vs main for performance` - Performance retro review
