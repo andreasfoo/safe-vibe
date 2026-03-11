@@ -53,29 +53,55 @@ The project uses conventional commits with lowercase prefixes:
 
 ## PR Generation Process
 
-### 1. Analyze Branch Changes
-```bash
-git log <base-branch>..HEAD --oneline    # Get commit history
-git diff <base-branch>..HEAD --stat      # See changed files
-```
-Identify the main theme and scope of changes.
+### 1. Fetch and Update Remote Base Branch
 
-### 2. Write PR Title
+**Critical: Ensure you're comparing against the latest remote base**
+
+```bash
+# Fetch latest from remote to get up-to-date base branch
+git fetch origin <base-branch>  # default: origin/main
+```
+
+This ensures your PR diff is accurate and not based on stale local data.
+
+### 2. Get Commit History and Full Diff Together
+
+**Get both commit messages and the complete diff as a unified view**
+
+```bash
+# Get commit history to understand the intent/flow
+git log <base-branch>..HEAD --oneline
+
+# Get the complete diff - this is your primary understanding source
+git diff <base-branch>..HEAD
+
+# Optional: See changed files summary
+git diff <base-branch>..HEAD --stat
+```
+
+**Why both?**
+- **Commit messages** tell you the *intent* and *why* changes were made
+- **Full diff** shows you the *what* - actual implementation details
+- **Together** they give complete context without fragmentation
+
+Read them as a coherent whole - the commits tell the story, the diff shows the reality.
+
+### 3. Write PR Title
 - Follow commit message style: `[prefix]: [brief description]`
 - Use lowercase for prefix and description
 - Keep it concise (under 72 characters)
 - If multiple commits with different prefixes, use the dominant one or `feat:` for features
 
-### 3. Write PR Description
+### 4. Write PR Description
 - Start with a brief summary (1-2 sentences)
 - Categorize changes into **Major** and **Minor** sections
 - **Major**: Core functionality, significant features, important bugfixes
 - **Minor**: Small improvements, refactors, docs, trivial changes
 - Use `-` for bullet points, keep descriptions concise
 - Optionally include commit title in parentheses if it adds useful context
-- No fluff or generic statements
+- Base the description on the unified understanding of commits + diff
 
-### 4. Test Plan (Optional but Recommended)
+### 5. Test Plan (Optional but Recommended)
 - Add a checklist of testing items if applicable
 - Use `- [ ]` for unchecked items
 - Focus on critical paths and edge cases
@@ -347,6 +373,8 @@ gh pr merge --merge --delete-branch
 - **Be clear**: Explain suggestions
 
 ### Tips
+- **Always fetch remote base branch first** - Ensures accurate diff against latest code
+- **Read commits and diff together as a unified view** - Commits tell intent, diff shows reality
 - Group related commits logically in the description
 - If the branch has many unrelated commits, suggest splitting it
 - Use file paths from `git diff --stat` to be specific
