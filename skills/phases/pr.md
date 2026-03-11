@@ -55,55 +55,38 @@ The project uses conventional commits with lowercase prefixes:
 
 ### 1. Fetch and Update Remote Base Branch
 
-**Critical: Ensure you're comparing against the latest remote base**
-
 ```bash
-# Fetch latest from remote to get up-to-date base branch
 git fetch origin <base-branch>  # default: origin/main
 ```
 
-This ensures your PR diff is accurate and not based on stale local data.
+Ensures PR diff is accurate against latest remote code.
 
 ### 2. Get Commit History and Full Diff Together
 
-**Get both commit messages and the complete diff as a unified view**
-
 ```bash
-# Get commit history to understand the intent/flow
-git log <base-branch>..HEAD --oneline
-
-# Get the complete diff - this is your primary understanding source
-git diff <base-branch>..HEAD
-
-# Optional: See changed files summary
-git diff <base-branch>..HEAD --stat
+git log <base-branch>..HEAD --oneline    # Commit history - intent
+git diff <base-branch>..HEAD             # Full diff - reality
+git diff <base-branch>..HEAD --stat      # Changed files summary
 ```
 
-**Why both?**
-- **Commit messages** tell you the *intent* and *why* changes were made
-- **Full diff** shows you the *what* - actual implementation details
-- **Together** they give complete context without fragmentation
-
-Read them as a coherent whole - the commits tell the story, the diff shows the reality.
+**Why both?** Commit messages tell *why* changes were made, diff shows *what* actually changed. Read together as a unified view.
 
 ### 3. Write PR Title
+
 - Follow commit message style: `[prefix]: [brief description]`
-- Use lowercase for prefix and description
-- Keep it concise (under 72 characters)
-- If multiple commits with different prefixes, use the dominant one or `feat:` for features
+- Use lowercase, keep under 72 characters
+- If multiple commit types, use dominant one or `feat:`
 
 ### 4. Write PR Description
-- Start with a brief summary (1-2 sentences)
-- Categorize changes into **Major** and **Minor** sections
-- **Major**: Core functionality, significant features, important bugfixes
-- **Minor**: Small improvements, refactors, docs, trivial changes
-- Use `-` for bullet points, keep descriptions concise
-- Optionally include commit title in parentheses if it adds useful context
-- Base the description on the unified understanding of commits + diff
 
-### 5. Test Plan (Optional but Recommended)
-- Add a checklist of testing items if applicable
-- Use `- [ ]` for unchecked items
+- Start with brief summary (1-2 sentences)
+- Categorize into **Major** (core functionality, significant features) and **Minor** (small improvements, docs)
+- Use `-` for bullet points, keep concise
+- Optionally include commit title in parentheses
+
+### 5. Test Plan (Optional)
+
+- Add checklist with `- [ ]` for unchecked items
 - Focus on critical paths and edge cases
 
 ## PR Output Format
@@ -112,12 +95,11 @@ Read them as a coherent whole - the commits tell the story, the diff shows the r
 ## Summary
 [1-2 sentence summary of what this PR does and why]
 
-### Major: *(optional: major title)*
+### Major: *(optional title)*
 - [Change description]
 - [Change description]
 
-### Minor: *(optional: minor title)*
-- [Change description]
+### Minor: *(optional title)*
 - [Change description]
 
 ## Test Plan
@@ -151,78 +133,24 @@ Add complete user authentication flow with JWT token management.
 - Update dependencies to latest versions
 ```
 
-## PR Creation Steps
+## Create PR
 
-### 1. Prepare PR Content
-
-**Title:**
-Follow conventional commit format:
-```
-<type>(<scope>): <subject>
-```
-
-**Description Template:**
-```markdown
-## Summary
-[Brief description of the change]
-
-## Changes
-- [Change 1]
-- [Change 2]
-
-## Type of Change
-- [ ] Bug fix (non-breaking change)
-- [ ] New feature (non-breaking change)
-- [ ] Breaking change
-- [ ] Refactor (code quality improvement)
-- [ ] Documentation update
-
-## Testing
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated
-- [ ] E2E tests added/updated
-- [ ] All tests passing
-```
-
-### 2. Create PR
 Using GitHub CLI:
 ```bash
 gh pr create --title "feat(auth): add JWT authentication" --body "..."
 ```
 
-## SDLC Integration
+## Merge PR
 
-When used in SDLC workflow (`/sdlc pr`), additional features apply:
+```bash
+gh pr merge --merge --delete-branch
+```
 
-### PR Review Process
+## SDLC Mode Features
 
-**Review Categories:**
+When used in SDLC workflow (`/sdlc pr`):
 
-1. **Code Review**
-   - Implementation correctness
-   - Code quality and style
-   - Best practices adherence
-   - Performance considerations
-
-2. **Testing Review**
-   - Test coverage adequate
-   - Tests are meaningful
-   - Edge cases covered
-   - Integration tests included
-
-3. **Documentation Review**
-   - Code is documented
-   - API docs updated
-   - README updated (if needed)
-   - Changelog updated
-
-4. **Design Review**
-   - Architecture appropriate
-   - Design patterns consistent
-   - No breaking changes (unless intentional)
-   - Migration path for breaking changes
-
-### Enhanced PR Status Check (SDLC Mode)
+### Enhanced PR Status Check
 
 ```
 ━━━ Pull Request Status ━━━
@@ -245,20 +173,7 @@ Status: Ready for review
 ━━━ Review Status ━━━
 Required reviewers: 2
 ✓ @alice - Approved
-  ⚠ "Consider adding rate limiting per IP"
 ✓ @bob - Approved
-  ✓ "Looks good to me"
-
-━━━ Files Changed ━━━
-12 files changed, +277 lines, -15 lines
-  src/auth/          (+195 lines)
-  tests/             (+82 lines)
-
-━━━ Merge Readiness ━━━
-✓ All checks passed
-✓ Required approvals received
-✓ No merge conflicts
-✓ Up to date with main
 
 ━━━ Action ━━━
 Ready to merge! Use `/sdlc pr merge` to complete.
@@ -266,91 +181,40 @@ Ready to merge! Use `/sdlc pr merge` to complete.
 
 ### Merge Requirements (SDLC Mode)
 
-**Required Checks:**
-- [ ] All CI/CD checks passing
-- [ ] Code coverage threshold met
-- [ ] Security scan clean
-- [ ] No merge conflicts
-
-**Required Approvals:**
-- [ ] Minimum number of approvals received
-- [ ] No outstanding review objections
-- [ ] Reviewer feedback addressed
-
-**Final Checks:**
-- [ ] PR description complete
-- [ ] Related spec linked
-- [ ] Test reports linked
-- [ ] Breaking changes documented
+**Required:**
+- All CI/CD checks passing
+- Code coverage threshold met
+- Security scan clean
+- Minimum approvals received
+- No merge conflicts
 
 ### Enhanced Description Template (SDLC Mode)
 
 ```markdown
 ## Overview
-[Brief description of the change]
+[Brief description]
 
 ## Changes
 - [Change 1]
 - [Change 2]
-- [Change 3]
 
 ## Type of Change
-- [ ] Bug fix (non-breaking change)
-- [ ] New feature (non-breaking change)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work)
-- [ ] Refactor (code quality improvement)
-- [ ] Documentation update
+- [ ] Bug fix / New feature / Breaking change / Refactor / Documentation
 
 ## Testing
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated
-- [ ] E2E tests added/updated
+- [ ] Unit / Integration / E2E tests added
 - [ ] All tests passing
 
 ## Documentation
-- [ ] Spec document linked
-- [ ] API documentation updated
-- [ ] README updated (if applicable)
-- [ ] Changelog updated
-
-## Checklists
-- [ ] Code follows project style guidelines
-- [ ] Self-review completed
-- [ ] Code is self-contained (no incomplete features)
-- [ ] No unnecessary files included
-- [ ] Comments added to complex code
+- [ ] Spec linked
+- [ ] API docs updated
+- [ ] README updated (if needed)
 
 ## Related
 - Spec: `docs/spec/YYYYMMDD-title.md`
 - Test Report: `docs/test/YYYYMMDD-title-test-report.md`
 - Verification: `docs/verify/YYYYMMDD-title-verification.md`
-- Security: `docs/secure/YYYYMMDD-title-security.md`
-- Code Review: `docs/cr/YYYYMMDD-title-review.md`
-
-Closes #[issue_number]
 ```
-
-## Merge Process
-
-### 1. Final Review
-Review all:
-- Conversation threads
-- Review comments
-- Suggested changes
-
-### 2. Update if Needed
-Apply any final changes based on feedback
-
-### 3. Merge
-```bash
-gh pr merge --merge --delete-branch
-```
-
-### 4. Post-Merge
-- [ ] Verify deployment
-- [ ] Update project tracking
-- [ ] Notify stakeholders
-- [ ] Close related issues
 
 ## Best Practices
 
@@ -360,25 +224,12 @@ gh pr merge --merge --delete-branch
 - **Use draft PRs**: For work in progress
 - **Reference issues**: Link to related issue numbers
 
-### PR Communication
-- **Be responsive**: Address review comments promptly
-- **Be descriptive**: Explain why changes were made
-- **Be respectful**: Consider all feedback
-- **Document decisions**: Explain non-obvious choices
-
-### Review Tips
-- **Be thorough**: Review all changed files
-- **Be constructive**: Provide helpful feedback
-- **Be timely**: Review PRs promptly
-- **Be clear**: Explain suggestions
-
 ### Tips
-- **Always fetch remote base branch first** - Ensures accurate diff against latest code
-- **Read commits and diff together as a unified view** - Commits tell intent, diff shows reality
-- Group related commits logically in the description
-- If the branch has many unrelated commits, suggest splitting it
+- **Always fetch remote base branch first** - Ensures accurate diff
+- **Read commits and diff together** - Unified view prevents fragmentation
+- Group related commits logically
+- If many unrelated commits, suggest splitting
 - Use file paths from `git diff --stat` to be specific
-- Reference related issues if applicable
 
 ## Completion Conditions
 
