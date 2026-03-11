@@ -13,48 +13,43 @@ This skill reads and displays the current workflow state from `.sdlc/state.json`
 
 ## Output Format
 
-```
-╔═══════════════════════════════════════════════════════════╗
-║                    SDLC WORKFLOW STATUS                    ║
-╠═══════════════════════════════════════════════════════════╣
-║  Type:     FEATURE                                         ║
-║  Title:    User authentication system                     ║
-║  Started:  2026-03-08 10:00:00 UTC                        ║
-║  Updated:  2026-03-08 14:32:15 UTC                        ║
-╠═══════════════════════════════════════════════════════════╣
-║                                                           ║
-║  Progress: [████████████──░░░░] 60%                       ║
-║                                                           ║
-║  Phases:                                                  ║
-║    ✓ research     COMPLETED  (10:00 - 10:45, 45m)        ║
-║    ✓ spec         COMPLETED  (10:45 - 12:30, 1h 45m)     ║
-║    ✓ coding       COMPLETED  (12:30 - 14:00, 1h 30m)     ║
-║    → test         IN PROGRESS (started 14:00)            ║
-║      ○ lint       PENDING                                ║
-║      ○ typecheck  PENDING                                ║
-║      ○ format     PENDING                                ║
-║      ○ unit       PENDING                                ║
-║      ○ integ      PENDING                                ║
-║      ○ e2e        PENDING                                ║
-║      ○ coverage   PENDING                                ║
-║    ○ verify       PENDING                                ║
-║    ○ secure       PENDING                                ║
-║    ○ cr           PENDING                                ║
-║    ○ commit       PENDING                                ║
-║    ○ pr           PENDING                                ║
-║                                                           ║
-╠═══════════════════════════════════════════════════════════╣
-║                                                           ║
-║  Current Phase: test                                      ║
-║  Status:        Running lint checks...                    ║
-║                                                           ║
-║  Next Actions:                                            ║
-║    /sdlc next        - Proceed to next phase              ║
-║    /sdlc test        - Run specific test checks           ║
-║    /sdlc skip        - Skip current phase                 ║
-║    /sdlc phase cr    - Jump to specific phase             ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
+```markdown
+## SDLC Workflow Status
+
+**Type**: FEATURE
+**Title**: User authentication system
+**Started**: 2026-03-08 10:00:00 UTC
+**Updated**: 2026-03-08 14:32:15 UTC
+
+### Progress: 60%
+
+### Phases
+
+- ✅ **research** - COMPLETED (10:00 - 10:45, 45m)
+- ✅ **spec** - COMPLETED (10:45 - 12:30, 1h 45m)
+- ✅ **coding** - COMPLETED (12:30 - 14:00, 1h 30m)
+- 🔄 **test** - IN PROGRESS (started 14:00)
+  - ⏳ lint - PENDING
+  - ⏳ typecheck - PENDING
+  - ⏳ format - PENDING
+  - ⏳ unit - PENDING
+  - ⏳ integ - PENDING
+  - ⏳ e2e - PENDING
+  - ⏳ coverage - PENDING
+- ⏳ **verify** - PENDING
+- ⏳ **secure** - PENDING
+- ⏳ **cr** - PENDING
+- ⏳ **commit** - PENDING
+- ⏳ **pr** - PENDING
+
+### Current Phase: test
+**Status**: Running lint checks...
+
+### Next Actions
+- `/sdlc next` - Proceed to next phase
+- `/sdlc test` - Run specific test checks
+- `/sdlc skip` - Skip current phase
+- `/sdlc phase cr` - Jump to specific phase
 ```
 
 ## Status Values
@@ -71,18 +66,14 @@ This skill reads and displays the current workflow state from `.sdlc/state.json`
 
 If no workflow is active:
 
-```
-╔═══════════════════════════════════════════════════════════╗
-║                    NO ACTIVE WORKFLOW                      ║
-╠═══════════════════════════════════════════════════════════╣
-║                                                           ║
-║  Start a new workflow:                                    ║
-║    /sdlc start feature "New feature description"          ║
-║    /sdlc start bugfix "Bug description"                   ║
-║    /sdlc start refactor "What to refactor"                ║
-║    /sdlc start research "Research topic"                  ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
+```markdown
+## No Active Workflow
+
+Start a new workflow:
+- `/sdlc start feature "New feature description"`
+- `/sdlc start bugfix "Bug description"`
+- `/sdlc start refactor "What to refactor"`
+- `/sdlc start research "Research topic"`
 ```
 
 ## Detailed Phase Status

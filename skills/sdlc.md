@@ -149,9 +149,30 @@ Branch: quick/fix-typo
 
 ## Migration
 
-| Old | New |
-|-----|-----|
-| `/spec` | `/sdlc spec` |
-| `/pr` | `/sdlc pr` |
-| `/codereview` | `/sdlc cr` |
-| `/git-commit` | `/sdlc commit` |
+The SDLC system now includes unified commands that work both standalone and within workflows.
+
+| Old Command | New Command | Notes |
+|-------------|-------------|-------|
+| `/spec` | `/sdlc spec` | Specification writing |
+| `/pr` | `/pr` or `/sdlc pr` | **Standalone available** - no workflow required |
+| `/git-commit` | `/commit` or `/sdlc commit` | **Standalone available** - no workflow required |
+| `/codereview` | `/sdlc cr` | Code review |
+
+### Key Changes
+
+**`/commit` and `/pr` are now standalone:**
+- Use `/commit` or `/pr` anytime without starting an SDLC workflow
+- When used in SDLC workflow (`/sdlc commit`, `/sdlc pr`), they include additional checks and state updates
+- Single source of truth in `skills/phases/commit.md` and `skills/phases/pr.md`
+
+**Example:**
+```bash
+# Standalone use (no workflow)
+/commit "feat: add user auth"
+/pr
+
+# SDLC workflow use (with checks)
+/sdlc start quick "Add auth"
+/sdlc commit  # Runs pre-commit checks first
+/sdlc pr      # Includes review requirements
+```

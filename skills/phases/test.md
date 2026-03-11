@@ -45,11 +45,11 @@ Checks run in this order (fast-fail strategy):
 **Tools**: ESLint, TSLint, Pylint, etc.
 
 **Output example**:
-```
-━━━ Lint ━━━
-✓ ESLint: 0 errors, 2 warnings
-  ⚠ unused variable 'temp' (line 42)
-  ⚠ consider using const instead of let (line 57)
+```markdown
+### Lint
+✅ ESLint: 0 errors, 2 warnings
+- ⚠ unused variable 'temp' (line 42)
+- ⚠ consider using const instead of let (line 57)
 ```
 
 ### 2. Format
@@ -58,10 +58,10 @@ Checks run in this order (fast-fail strategy):
 **Tools**: Prettier, Black, gofmt, etc.
 
 **Output example**:
-```
-━━━ Format ━━━
-✓ Prettier: All files formatted
-  Formatted 3 files automatically
+```markdown
+### Format
+✅ Prettier: All files formatted
+- Formatted 3 files automatically
 ```
 
 ### 3. Typecheck
@@ -70,10 +70,10 @@ Checks run in this order (fast-fail strategy):
 **Tools**: TypeScript, mypy, etc.
 
 **Output example**:
-```
-━━━ Type Check ━━━
-✓ TypeScript: No errors
-  Checked 156 files in 2.3s
+```markdown
+### Type Check
+✅ TypeScript: No errors
+- Checked 156 files in 2.3s
 ```
 
 ### 4. Unit Tests
@@ -82,15 +82,14 @@ Checks run in this order (fast-fail strategy):
 **Coverage**: Business logic, utilities, pure functions
 
 **Output example**:
-```
-━━━ Unit Tests ━━━
-✓ 45/45 passed (234ms)
+```markdown
+### Unit Tests
+✅ 45/45 passed (234ms)
 
-  Groups:
-  ✓ auth/login - 12 tests
-  ✓ auth/register - 8 tests
-  ✓ utils/format - 15 tests
-  ✓ components/Button - 10 tests
+- auth/login - 12 tests
+- auth/register - 8 tests
+- utils/format - 15 tests
+- components/Button - 10 tests
 ```
 
 ### 5. Integration Tests
@@ -99,14 +98,13 @@ Checks run in this order (fast-fail strategy):
 **Coverage**: API endpoints, database operations, service interactions
 
 **Output example**:
-```
-━━━ Integration Tests ━━━
-✓ 12/12 passed (1.2s)
+```markdown
+### Integration Tests
+✅ 12/12 passed (1.2s)
 
-  Groups:
-  ✓ API /auth/* endpoints - 5 tests
-  ✓ Database migrations - 3 tests
-  ✓ External service integrations - 4 tests
+- API /auth/* endpoints - 5 tests
+- Database migrations - 3 tests
+- External service integrations - 4 tests
 ```
 
 ### 6. E2E Tests
@@ -115,15 +113,14 @@ Checks run in this order (fast-fail strategy):
 **Coverage**: Critical user paths, cross-system flows
 
 **Output example**:
-```
-━━━ E2E Tests ━━━
-✓ 8/8 passed (5.6s)
+```markdown
+### E2E Tests
+✅ 8/8 passed (5.6s)
 
-  Scenarios:
-  ✓ User registration and login flow
-  ✓ Password reset flow
-  ✓ Checkout process
-  ✓ Admin dashboard navigation
+- User registration and login flow
+- Password reset flow
+- Checkout process
+- Admin dashboard navigation
 ```
 
 ### 7. Coverage
@@ -132,65 +129,64 @@ Checks run in this order (fast-fail strategy):
 **Thresholds**: Typically 80% minimum
 
 **Output example**:
-```
-━━━ Coverage ━━━
-Lines:  87% │ Functions:  82% │ Branches:  79%
+```markdown
+### Coverage
+Lines: 87% | Functions: 82% | Branches: 79%
 
-  Uncovered:
-  ⚠ src/auth/legacy.ts - Lines: 45%
-  ⚠ src/utils/debug.ts - Lines: 0%
+- ⚠ src/auth/legacy.ts - Lines: 45%
+- ⚠ src/utils/debug.ts - Lines: 0%
 
-✓ Coverage above 80% threshold
+✅ Coverage above 80% threshold
 ```
 
 ## Full Test Report Example
 
-```
-Running test suite...
+```markdown
+## Test Suite Results
 
-━━━ Lint ━━━
-✓ ESLint: 0 errors, 2 warnings
-  ⚠ unused variable 'temp' (line 42)
-  ⚠ consider using const instead of let (line 57)
+### Lint
+✅ ESLint: 0 errors, 2 warnings
+- ⚠ unused variable 'temp' (line 42)
+- ⚠ consider using const instead of let (line 57)
 
-━━━ Format ━━━
-✓ Prettier: All files formatted
-  Formatted 3 files automatically
+### Format
+✅ Prettier: All files formatted
+- Formatted 3 files automatically
 
-━━━ Type Check ━━━
-✓ TypeScript: No errors
-  Checked 156 files in 2.3s
+### Type Check
+✅ TypeScript: No errors
+- Checked 156 files in 2.3s
 
-━━━ Unit Tests ━━━
-✓ 45/45 passed (234ms)
-  ✓ auth/login - 12 tests
-  ✓ auth/register - 8 tests
-  ✓ utils/format - 15 tests
-  ✓ components/Button - 10 tests
+### Unit Tests
+✅ 45/45 passed (234ms)
+- auth/login - 12 tests
+- auth/register - 8 tests
+- utils/format - 15 tests
+- components/Button - 10 tests
 
-━━━ Integration Tests ━━━
-✓ 12/12 passed (1.2s)
-  ✓ API /auth/* endpoints - 5 tests
-  ✓ Database operations - 3 tests
-  ✓ Service integrations - 4 tests
+### Integration Tests
+✅ 12/12 passed (1.2s)
+- API /auth/* endpoints - 5 tests
+- Database operations - 3 tests
+- Service integrations - 4 tests
 
-━━━ E2E Tests ━━━
-✓ 8/8 passed (5.6s)
-  ✓ User registration flow
-  ✓ Password reset flow
-  ✓ Checkout process
+### E2E Tests
+✅ 8/8 passed (5.6s)
+- User registration flow
+- Password reset flow
+- Checkout process
 
-━━━ Coverage ━━━
-Lines:  87% │ Functions:  82% │ Branches:  79%
-✓ Coverage above 80% threshold
+### Coverage
+Lines: 87% | Functions: 82% | Branches: 79%
+✅ Coverage above 80% threshold
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ALL TESTS PASSED ✓
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
-Duration: 8.4s
-Tests: 65 passed, 0 failed
-Warnings: 2 (lint)
+## Summary
+
+**Duration**: 8.4s
+**Tests**: 65 passed, 0 failed
+**Warnings**: 2 (lint)
 ```
 
 ## Test Output
