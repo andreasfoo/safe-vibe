@@ -8,7 +8,7 @@ Provides implementation guidance and support based on specification documents.
 /sdlc coding [spec_file?]
 ```
 
-If no spec file is provided, the skill will look for the most recent spec in docs/spec/.
+If no spec file is provided, the skill will look for the most recent spec in .sdlc/docs/spec/.
 
 ## Description
 
@@ -300,7 +300,7 @@ Developer Implementation:
 ### Example 1: Feature Implementation
 
 ```
-/sdlc coding docs/spec/user-profile-management.md
+/sdlc coding .sdlc/docs/spec/user-profile-management.md
 ```
 
 Would provide guidance for:
@@ -313,7 +313,7 @@ Would provide guidance for:
 ### Example 2: API Implementation
 
 ```
-/sdlc coding docs/spec/payment-api.md
+/sdlc coding .sdlc/docs/spec/payment-api.md
 ```
 
 Would guide:
@@ -330,7 +330,7 @@ Would guide:
 ```
 
 Would:
-- Find the most recent spec in docs/spec/
+- Find the most recent spec in .sdlc/docs/spec/
 - Provide guidance based on that spec
 - Ask for clarification if multiple specs exist
 

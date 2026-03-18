@@ -159,11 +159,11 @@ Create system architecture documentation:
 
 | Type | Output Path | Format |
 |------|-------------|--------|
-| Spec | `./docs/spec/{feature-name}.md` | Markdown |
+| Spec | `./.sdlc/docs/spec/{feature-name}.md` | Markdown |
 | API Docs | `./docs/api/{YYYY-MM-DD}-{resource}.md` | Markdown |
 | README | `./README.md` | Markdown |
 | Changelog | `./CHANGELOG.md` | Markdown |
-| Architecture | `./docs/arch/{YYYY-MMDD}-arch.md` | Markdown |
+| Architecture | `./.sdlc/docs/arch/{YYYY-MMDD}-arch.md` | Markdown |
 
 ## Documentation Principles
 
@@ -195,7 +195,7 @@ Create system architecture documentation:
 3. Design API contracts and data models
 4. Document implementation approach
 5. Define testing strategy
-6. Create spec document in `./docs/spec/`
+6. Create spec document in `./.sdlc/docs/spec/`
 
 ### 2. API Documentation Generation
 1. Scan target directory for API definitions
@@ -222,7 +222,7 @@ Create system architecture documentation:
 2. Map data flows and integration points
 3. Document technology stack
 4. Create architecture diagrams
-5. Save to `./docs/arch/`
+5. Save to `./.sdlc/docs/arch/`
 
 ## Error Handling
 

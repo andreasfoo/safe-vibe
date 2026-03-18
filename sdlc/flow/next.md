@@ -113,7 +113,7 @@ discuss   →  (Discussion prompt)
 ║  Type: Manual                                             ║
 ║                                                           ║
 ║  Please implement the specification:                      ║
-║  → ./docs/spec/20260308-user-auth.md                      ║
+║  → ./.sdlc/docs/spec/20260308-user-auth.md                      ║
 ║                                                           ║
 ║  When complete, run /sdlc next to proceed to testing.     ║
 ║                                                           ║

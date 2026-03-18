@@ -216,9 +216,9 @@ Ready to merge! Use `/sdlc pr merge` to complete.
 - [ ] README updated (if needed)
 
 ## Related
-- Spec: `docs/spec/YYYYMMDD-title.md`
-- Test Report: `docs/test/YYYYMMDD-title-test-report.md`
-- Verification: `docs/verify/YYYYMMDD-title-verification.md`
+- Spec: `.sdlc/docs/spec/YYYYMMDD-title.md`
+- Test Report: `.sdlc/docs/test/YYYYMMDD-title-test-report.md`
+- Verification: `.sdlc/docs/verify/YYYYMMDD-title-verification.md`
 ```
 
 ## Best Practices
@@ -256,7 +256,7 @@ Ready to merge! Use `/sdlc pr merge` to complete.
 
 - **Updates**: `sdlc.phase` = `pr`
 - **Creates**: Pull request
-- **Creates**: PR log in `docs/pr/` (SDLC only)
+- **Creates**: PR log in `.sdlc/docs/pr/` (SDLC only)
 - **Requires**: `commit` phase completed (SDLC only)
 - **Next**: After merge, workflow complete (SDLC only)
 

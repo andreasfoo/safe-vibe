@@ -360,7 +360,7 @@ Recommendations:
 
 ## Security Output
 
-**Always save security reports** to `docs/security/YYYYMMDD-[name]-security-report.md` where:
+**Always save security reports** to `.sdlc/.sdlc/docs/secure/YYYYMMDD-[name]-security-report.md` where:
 - `YYYYMMDD` - Current date timestamp
 - `[name]` - Feature or component name
 
@@ -459,13 +459,13 @@ npm update
 - [ ] No secrets detected in code
 - [ ] Dependencies up to date or vulnerabilities acknowledged
 - [ ] Security configurations reviewed
-- [ ] Security report saved to `docs/security/`
+- [ ] Security report saved to `.sdlc/.sdlc/docs/secure/`
 - [ ] Action items documented for any remaining issues
 
 ## State Integration
 
 - **Updates**: `sdlc.phase` = `secure`
-- **Creates**: Security report in `docs/security/`
+- **Creates**: Security report in `.sdlc/.sdlc/docs/secure/`
 - **Requires**: `verify` phase completed (implementation verified)
 - **Next**: Proceed to deployment or back to coding for fixes
 

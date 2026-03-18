@@ -31,7 +31,7 @@ Review before creating PR to catch issues early.
 Review after merge for learning and documentation.
 - Run on: Committed changes, branch diffs
 - Focus: Patterns, learnings, archive-worthy insights
-- Output: Saved to `docs/cr/` for team reference
+- Output: Saved to `.sdlc/docs/cr/` for team reference
 
 ### Targeted Review
 Deep dive into a specific concern.
@@ -153,29 +153,29 @@ Deep dive into a specific concern.
 - [ ] All review categories assessed
 - [ ] Issues numbered with severity levels
 - [ ] No 🚨 Critical issues (blocking)
-- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
+- [ ] Report saved to `.sdlc/docs/cr/YYYYMMDD-[name]-review.md`
 - [ ] Code approved (PASS)
 
 ### Post-Commit Review
 - [ ] Specified focus area assessed
 - [ ] Key findings documented
-- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
+- [ ] Report saved to `.sdlc/docs/cr/YYYYMMDD-[name]-review.md`
 
 ### Targeted Review
 - [ ] Focus area deeply assessed
 - [ ] Specific findings with recommendations
-- [ ] Report saved to `docs/cr/YYYYMMDD-[name]-review.md`
+- [ ] Report saved to `.sdlc/docs/cr/YYYYMMDD-[name]-review.md`
 
 ## State Integration
 
 **Pre-PR Review** (workflow phase):
 - **Updates**: `sdlc.phase` = `cr`
-- **Creates**: Code review report in `docs/cr/`
+- **Creates**: Code review report in `.sdlc/docs/cr/`
 - **Requires**: `secure` phase completed
 - **Next**: Proceed to `/sdlc commit` phase
 
 **Post-Commit / Targeted Review** (standalone):
-- **Creates**: Code review report in `docs/cr/`
+- **Creates**: Code review report in `.sdlc/docs/cr/`
 - **No state updates**: Can be run anytime
 
 ## Related Skills

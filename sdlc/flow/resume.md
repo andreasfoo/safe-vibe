@@ -20,30 +20,30 @@ This skill helps users resume work after context switches (environment changes, 
 Select a document to resume:
 
 ### Specifications
-1. **SDLC Skills System v4** - `docs/spec/20260308-sdlc-skills-v4.md`
+1. **SDLC Skills System v4** - `.sdlc/docs/spec/20260308-sdlc-skills-v4.md`
    - Date: 2026-03-08
    - Status: Design
    - Version: 4.0 (Flexible)
 
-2. **Vibe Task Dispatcher** - `docs/spec/20260121-vibe-task-dispatcher.md`
+2. **Vibe Task Dispatcher** - `.sdlc/docs/spec/20260121-vibe-task-dispatcher.md`
    - Date: 2026-01-21
 
 ### Research
-3. **Tingly Spec Extension** - `docs/research/20260223-tingly-spec-extension.md`
+3. **Tingly Spec Extension** - `.sdlc/docs/research/20260223-tingly-spec-extension.md`
    - Date: 2026-02-23
    - Summary: VSCode extension for file reference completion
 
 ### Notes / Pencil
-4. **SDLC v3.2 Flow** - `docs/pencil/2026-03-08-sdlc-v3.2-flow.md`
+4. **SDLC v3.2 Flow** - `.sdlc/docs/pencil/2026-03-08-sdlc-v3.2-flow.md`
    - Date: 2026-03-08
    - Status: Design
 
 ### Architecture
-5. **System Overview** - `docs/arch/overview-arch.md`
-6. **Skills Architecture** - `docs/arch/skills-arch.md`
+5. **System Overview** - `.sdlc/docs/arch/overview-arch.md`
+6. **Skills Architecture** - `.sdlc/docs/arch/skills-arch.md`
 
 ### Understanding Reports
-7. **SDLC Skill Understanding** - `docs/understand/20260308-sdlc-skill-understanding.md`
+7. **SDLC Skill Understanding** - `.sdlc/docs/understand/20260308-sdlc-skill-understanding.md`
 
 ---
 Reply with a number (1-7) to open that document, or specify the file path directly.

@@ -47,7 +47,7 @@ These foundation skills are designed to work seamlessly with the SDLC workflow:
 ## Design Reference
 
 These skills were created based on the SDLC v3.2 design document:
-`/Users/yz/Project/feng-project/vibely/docs/pencil/2026-03-08-sdlc-v3.2-flow.md`
+`/Users/yz/Project/feng-project/vibely/.sdlc/docs/pencil/2026-03-08-sdlc-v3.2-flow.md`
 
 ## File Structure
 

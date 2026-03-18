@@ -15,12 +15,12 @@
 
 **Examples:**
 - `/sdlc verify` - Verify against the latest spec
-- `/sdlc verify docs/spec/20260308-user-auth.md` - Verify against specific spec
+- `/sdlc verify .sdlc/docs/spec/20260308-user-auth.md` - Verify against specific spec
 
 ## Verification Process
 
 ### 1. Locate Spec
-- Find the relevant spec document in `docs/spec/`
+- Find the relevant spec document in `.sdlc/docs/spec/`
 - If not provided, use the most recent spec by date
 - Confirm spec with user if ambiguous
 
@@ -121,7 +121,7 @@ Verify business rules are correctly implemented.
 Verifying implementation against spec...
 
 ━━━ Spec Document ━━━
-./docs/spec/20260308-user-auth.md
+./.sdlc/docs/spec/20260308-user-auth.md
 
 ━━━ Requirements Coverage ━━━
 4/5 requirements implemented (80%)
@@ -196,7 +196,7 @@ Summary:
 
 ## Verification Output
 
-**Always save verification reports** to `docs/verify/YYYYMMDD-[name]-verification.md` where:
+**Always save verification reports** to `.sdlc/docs/verify/YYYYMMDD-[name]-verification.md` where:
 - `YYYYMMDD` - Current date timestamp
 - `[name]` - Feature or component name
 
@@ -222,7 +222,7 @@ If implementation is valid but spec is wrong:
 ## Completion Conditions
 
 - [ ] All requirements verified against spec
-- [ ] Verification report saved to `docs/verify/`
+- [ ] Verification report saved to `.sdlc/docs/verify/`
 - [ ] Gaps documented with specific file references
 - [ ] Action items prioritized
 - [ ] Either:
@@ -232,8 +232,8 @@ If implementation is valid but spec is wrong:
 ## State Integration
 
 - **Updates**: `sdlc.phase` = `verify`
-- **Creates**: Verification report in `docs/verify/`
-- **Reads**: Spec document from `docs/spec/`
+- **Creates**: Verification report in `.sdlc/docs/verify/`
+- **Reads**: Spec document from `.sdlc/docs/spec/`
 - **Requires**: `test` phase completed (tests passing)
 - **Next**: Proceed to `/sdlc secure` phase
 

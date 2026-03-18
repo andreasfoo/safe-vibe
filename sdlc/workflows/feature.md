@@ -32,7 +32,7 @@ understand → research → spec → coding → test → verify → secure → c
 /sdlc understand [scope]
 ```
 - Build context of the codebase architecture
-- Create or reuse architecture cache in `docs/arch/`
+- Create or reuse architecture cache in `.sdlc/docs/arch/`
 - Identify relevant components and integration points
 - Understand existing patterns and conventions
 - **Do not skip this step!**
@@ -143,14 +143,14 @@ understand → research → spec → coding → test → verify → secure → c
 
 # Step 1: Understand the codebase (MANDATORY)
 /sdlc understand auth
-# → Creates/reuses docs/arch/main/auth-arch.md
+# → Creates/reuses .sdlc/docs/arch/main/auth-arch.md
 
 # Step 2: Research authentication approaches
 /sdlc research "Evaluate auth libraries: NextAuth vs Clerk vs custom"
 
 # Step 3: Create specification (MANDATORY BEFORE CODING)
 /sdlc spec "Define auth endpoints, session management, and security"
-# → Creates docs/spec/auth-spec.md
+# → Creates .sdlc/docs/spec/auth-spec.md
 
 # Step 4: [Manual coding - implement the feature based on spec]
 

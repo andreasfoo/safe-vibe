@@ -126,7 +126,7 @@ understand → debug → coding → test → verify → secure → commit → pr
 
 # Step 1: Understand the codebase (MANDATORY)
 /sdlc understand auth/session
-# → Creates/reuses docs/arch/main/auth-session-arch.md
+# → Creates/reuses .sdlc/docs/arch/main/auth-session-arch.md
 # → Now you understand how sessions currently work
 
 # Step 2: Debug phase (with full context)

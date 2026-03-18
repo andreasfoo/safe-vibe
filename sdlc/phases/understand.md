@@ -26,7 +26,7 @@ Builds comprehensive knowledge of the existing codebase by analyzing architectur
 - Identifies tech stack, frameworks, and dependencies
 - Analyzes code patterns and conventions
 - Documents module relationships and data flow
-- **Creates architecture cache in `docs/arch/`**
+- **Creates architecture cache in `.sdlc/docs/arch/`**
 - Identifies potential issues or technical debt
 
 ## Architecture Cache
@@ -37,10 +37,10 @@ Understand generates architecture cache at different levels based on scope:
 
 | Level | Scope Pattern | TTL Reference | Output Path |
 |-------|---------------|---------------|-------------|
-| **Project** | No scope (entire project) | ~30 days | `docs/arch/{branch}/overview-arch.md` |
-| **Module** | `src/[module]` or `[module]/` | ~14 days | `docs/arch/{branch}/[module]-arch.md` |
-| **Sub-module** | `src/[module]/[sub]` | ~7 days | `docs/arch/{branch}/[module]/[sub]-arch.md` |
-| **Component** | Deep dive into specific component | ~3 days | `docs/arch/{branch}/[module]/[sub]/[comp]-arch.md` |
+| **Project** | No scope (entire project) | ~30 days | `.sdlc/docs/arch/{branch}/overview-arch.md` |
+| **Module** | `src/[module]` or `[module]/` | ~14 days | `.sdlc/docs/arch/{branch}/[module]-arch.md` |
+| **Sub-module** | `src/[module]/[sub]` | ~7 days | `.sdlc/docs/arch/{branch}/[module]/[sub]-arch.md` |
+| **Component** | Deep dive into specific component | ~3 days | `.sdlc/docs/arch/{branch}/[module]/[sub]/[comp]-arch.md` |
 
 > `{branch}` is the current git branch. Falls back to `main/` if branch cache doesn't exist.
 
@@ -79,11 +79,11 @@ Before generating new cache, understand checks for existing cache:
 BRANCH=$(git branch --show-current)
 
 # Priority order (most specific first)
-docs/arch/${BRANCH}/[module]/[sub]/[comp]-arch.md  # Component level
-docs/arch/${BRANCH}/[module]/[sub]-arch.md          # Sub-module level
-docs/arch/${BRANCH}/[module]-arch.md                # Module level
-docs/arch/${BRANCH}/overview-arch.md                # Project level
-docs/arch/main/[module]-arch.md                       # Fallback to main
+.sdlc/docs/arch/${BRANCH}/[module]/[sub]/[comp]-arch.md  # Component level
+.sdlc/docs/arch/${BRANCH}/[module]/[sub]-arch.md          # Sub-module level
+.sdlc/docs/arch/${BRANCH}/[module]-arch.md                # Module level
+.sdlc/docs/arch/${BRANCH}/overview-arch.md                # Project level
+.sdlc/docs/arch/main/[module]-arch.md                       # Fallback to main
 ```
 
 If cache exists and is fresh (within TTL, no code changes), understand reuses it instead of regenerating.
@@ -99,7 +99,7 @@ Cache is invalidated when:
 ```bash
 # Check if cache is stale
 BRANCH=$(git branch --show-current)
-cache_hash=$(grep "Hash:" docs/arch/${BRANCH}/auth-arch.md)
+cache_hash=$(grep "Hash:" .sdlc/docs/arch/${BRANCH}/auth-arch.md)
 current_hash=$(git rev-parse HEAD)
 last_change=$(git log -1 --format=%cd --date=short -- src/auth/)
 
@@ -111,7 +111,7 @@ fi
 ## Process
 
 1. **Check Existing Cache**
-   - Look for existing architecture cache in `docs/arch/`
+   - Look for existing architecture cache in `.sdlc/docs/arch/`
    - Check if cache is fresh (hash comparison, file modification time)
    - Reuse if fresh, otherwise proceed to analysis
 
@@ -131,11 +131,11 @@ fi
    - Understand state management and data flow
 
 5. **Generate Architecture Cache**
-   - Save to `docs/arch/[YYYYMMDD]-[scope]-arch.md`
+   - Save to `.sdlc/docs/arch/[YYYYMMDD]-[scope]-arch.md`
    - Include hash for change detection
    - Set appropriate TTL based on level
    - Use branch directory for isolation
-   - Update `docs/arch/cache-metadata.json` if needed
+   - Update `.sdlc/docs/arch/cache-metadata.json` if needed
 
 ## Scope Options
 
@@ -193,7 +193,7 @@ fi
 ### Architecture Cache (Primary Output)
 
 ```
-docs/arch/
+.sdlc/docs/arch/
 ├── main/
 │   ├── overview-arch.md          # Project level
 │   ├── auth-arch.md              # Module level
@@ -206,12 +206,12 @@ docs/arch/
 ### Understanding Reports (Secondary Output)
 
 ```
-docs/understand/YYYYMMDD-[scope]-understanding.md
+.sdlc/docs/understand/YYYYMMDD-[scope]-understanding.md
 ```
 
 Examples:
-- `docs/understand/20260308-full-project-understanding.md`
-- `docs/understand/20260308-auth-module-understanding.md`
+- `.sdlc/docs/understand/20260308-full-project-understanding.md`
+- `.sdlc/docs/understand/20260308-auth-module-understanding.md`
 
 ## Completion Checklist
 
@@ -222,10 +222,10 @@ Examples:
 - [ ] Code patterns noted
 - [ ] Module relationships understood
 - [ ] Dependencies mapped
-- [ ] Architecture cache saved to `docs/arch/`
+- [ ] Architecture cache saved to `.sdlc/docs/arch/`
 - [ ] Hash included for change detection
 - [ ] Branch directory used for cache isolation
-- [ ] Understanding report saved to `docs/understand/`
+- [ ] Understanding report saved to `.sdlc/docs/understand/`
 
 ## Examples
 
@@ -236,8 +236,8 @@ Examples:
 ```
 
 Generates:
-- `docs/arch/main/overview-arch.md` - Project architecture cache (~30 days)
-- `docs/understand/20260308-full-project-understanding.md` - Full understanding report
+- `.sdlc/docs/arch/main/overview-arch.md` - Project architecture cache (~30 days)
+- `.sdlc/docs/understand/20260308-full-project-understanding.md` - Full understanding report
 
 Covers:
 - Overall architecture and structure
@@ -252,8 +252,8 @@ Covers:
 ```
 
 Generates:
-- `docs/arch/main/auth-arch.md` - Auth module cache (~14 days)
-- `docs/understand/20260308-auth-module-understanding.md` - Module understanding
+- `.sdlc/docs/arch/main/auth-arch.md` - Auth module cache (~14 days)
+- `.sdlc/docs/understand/20260308-auth-module-understanding.md` - Module understanding
 
 Focuses on:
 - Auth module structure
@@ -268,8 +268,8 @@ Focuses on:
 ```
 
 Generates:
-- `docs/arch/main/auth/login-arch.md` - Login component cache (~7 days)
-- `docs/understand/20260308-login-understanding.md` - Detailed understanding
+- `.sdlc/docs/arch/main/auth/login-arch.md` - Login component cache (~7 days)
+- `.sdlc/docs/understand/20260308-login-understanding.md` - Detailed understanding
 
 Focuses on:
 - Login flow details
@@ -320,4 +320,4 @@ understand → cr → spec → coding → test → verify → cr → commit → 
 - Use specific scope for large codebases
 - Notes on technical debt help prioritize refactor work
 
-**See also**: `docs/arch/ARCH_CACHE_SYSTEM.md` for full cache documentation
+**See also**: `.sdlc/docs/arch/ARCH_CACHE_SYSTEM.md` for full cache documentation

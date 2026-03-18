@@ -12,15 +12,15 @@ When invoked without arguments, it guides you through creating a wireframe. When
 
 ## Output
 
-Save all wireframes to: `./docs/pencil/{YYYY-MM-DD}-{name}.md`
+Save all wireframes to: `./.sdlc/docs/pencil/{YYYY-MM-DD}-{name}.md`
 
 - **{YYYY-MM-DD}**: Current date in ISO format (e.g., 2024-03-07)
 - **{name}**: Descriptive kebab-case name based on the design (e.g., `login-page`, `user-dashboard`, `checkout-flow`)
 
 Example output paths:
-- `./docs/pencil/2024-03-07-login-page.md`
-- `./docs/pencil/2024-03-07-mobile-nav.md`
-- `./docs/pencil/2024-03-07-settings-panel.md`
+- `./.sdlc/docs/pencil/2024-03-07-login-page.md`
+- `./.sdlc/docs/pencil/2024-03-07-mobile-nav.md`
+- `./.sdlc/docs/pencil/2024-03-07-settings-panel.md`
 
 ## Guidelines
 
@@ -174,4 +174,4 @@ Questions:
 - [ ] Responsive considerations noted
 - [ ] Interactive elements called out
 - [ ] Implementation guidance provided
-- [ ] Saved to docs/pencil/ with appropriate filename
+- [ ] Saved to .sdlc/docs/pencil/ with appropriate filename

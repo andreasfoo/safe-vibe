@@ -191,7 +191,7 @@ Lines: 87% | Functions: 82% | Branches: 79%
 
 ## Test Output
 
-**Always save test results** to `docs/test/YYYYMMDD-[name]-test-report.md` where:
+**Always save test results** to `.sdlc/docs/test/YYYYMMDD-[name]-test-report.md` where:
 - `YYYYMMDD` - Current date timestamp
 - `[name]` - Feature or component name
 
@@ -233,12 +233,12 @@ tests/
 - [ ] All integration tests pass
 - [ ] All E2E tests pass
 - [ ] Coverage meets threshold
-- [ ] Test report saved to `docs/test/`
+- [ ] Test report saved to `.sdlc/docs/test/`
 
 ## State Integration
 
 - **Updates**: `sdlc.phase` = `test`
-- **Creates**: Test report in `docs/test/`
+- **Creates**: Test report in `.sdlc/docs/test/`
 - **Requires**: `coding` phase completed
 - **Next**: Proceed to `/sdlc verify` phase
 

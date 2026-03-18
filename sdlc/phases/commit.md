@@ -195,11 +195,11 @@ Code Quality:
 ✓ Code review approved
 
 Documentation:
-✓ Spec document: docs/spec/20260308-user-auth.md
-✓ Test report: docs/test/20260308-auth-test-report.md
-✓ Verification: docs/verify/20260308-auth-verification.md
-✓ Security: docs/secure/20260308-auth-security.md
-✓ Code review: docs/cr/20260308-auth-review.md
+✓ Spec document: .sdlc/docs/spec/20260308-user-auth.md
+✓ Test report: .sdlc/docs/test/20260308-auth-test-report.md
+✓ Verification: .sdlc/docs/verify/20260308-auth-verification.md
+✓ Security: .sdlc/docs/secure/20260308-auth-security.md
+✓ Code review: .sdlc/docs/cr/20260308-auth-review.md
 
 Files:
 ✓ No unintended changes
@@ -231,7 +231,7 @@ Features:
 - Email verification
 - Rate limiting
 
-Spec: docs/spec/20260308-user-auth.md
+Spec: .sdlc/docs/spec/20260308-user-auth.md
 Tests: 45/45 passing
 Coverage: 87%
 
@@ -294,7 +294,7 @@ Ready to commit. Use 'git commit' to finalize.
 
 - **Updates**: `sdlc.phase` = `commit`
 - **Creates**: Git commit
-- **Creates**: Commit log in `docs/commits/` (SDLC only)
+- **Creates**: Commit log in `.sdlc/docs/commits/` (SDLC only)
 - **Requires**: (SDLC only) `cr` phase completed with approval
 - **Next**: (SDLC only) Proceed to `/sdlc pr` phase
 

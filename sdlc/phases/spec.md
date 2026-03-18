@@ -19,13 +19,13 @@ Creates detailed technical specification documents based on research findings an
    - Design the approach in your head first
 
 2. **Read Architecture Cache**
-   - Check `./docs/arch/` for existing architecture documents
+   - Check `./.sdlc/docs/arch/` for existing architecture documents
    - Priority order: component → module → project overview
    - Use cached architecture info to reduce code searching and reading
    - If no relevant cache exists, generate it first with `/sdlc understand [scope]`
 
 3. **Write the Spec Document**
-   - Save to `./docs/spec/YYYYMMDD-[title]-spec.md`
+   - Save to `./.sdlc/docs/spec/YYYYMMDD-[title]-spec.md`
    - Write the spec along with your understanding and design decisions
    - Keep specs key-focused and guiding-oriented
    - Pay attention to model definitions and file/module/function abstractions
@@ -43,10 +43,10 @@ Architecture cache speeds up spec creation by reusing existing understanding.
 
 Priority order (most specific first):
 ```bash
-docs/arch/[module]/[sub]/[comp]-arch.md  # Component (~3 days)
-docs/arch/[module]/[sub]-arch.md          # Sub-module (~7 days)
-docs/arch/[module]-arch.md                # Module (~14 days)
-docs/arch/overview-arch.md                # Project (~30 days)
+.sdlc/docs/arch/[module]/[sub]/[comp]-arch.md  # Component (~3 days)
+.sdlc/docs/arch/[module]/[sub]-arch.md          # Sub-module (~7 days)
+.sdlc/docs/arch/[module]-arch.md                # Module (~14 days)
+.sdlc/docs/arch/overview-arch.md                # Project (~30 days)
 ```
 
 ### Cache Freshness
@@ -58,11 +58,11 @@ TTL values are reference guidelines:
 
 If cache is expired or missing, regenerate using `/sdlc understand [scope]`.
 
-**See also**: `docs/arch/ARCH_CACHE_SYSTEM.md` for full documentation
+**See also**: `.sdlc/docs/arch/ARCH_CACHE_SYSTEM.md` for full documentation
 
 ## Output Format
 
-Spec files are saved to `docs/spec/YYYYMMDD-[title]-spec.md`
+Spec files are saved to `.sdlc/docs/spec/YYYYMMDD-[title]-spec.md`
 
 Include:
 - Overview and scope
@@ -105,8 +105,8 @@ Include:
 
 ```bash
 /sdlc spec "Add OAuth to Auth"
-# Reads docs/arch/auth-arch.md for context
-# Writes docs/spec/20260318-add-oauth-to-auth-spec.md
+# Reads .sdlc/docs/arch/auth-arch.md for context
+# Writes .sdlc/docs/spec/20260318-add-oauth-to-auth-spec.md
 ```
 
 ### Example 2: Feature Requiring New Cache

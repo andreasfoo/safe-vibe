@@ -59,7 +59,7 @@ Software Development Lifecycle management with intelligent intent detection.
 | `/sdlc pr [action]`      | Create/manage PR                                                |
 | `/sdlc debug [issue]`    | Debug bugs                                                      |
 | `/sdlc research [topic]` | Research solutions                                              |
-| `/sdlc resume`           | Browse and resume recent work from docs/                        |
+| `/sdlc resume`           | Browse and resume recent work from `.sdlc/docs/`        |
 
 ## Workflows
 
@@ -116,15 +116,22 @@ Software Development Lifecycle management with intelligent intent detection.
 ## Output Locations
 
 ```
-docs/
-├── spec/       # Specs
-├── research/   # Research docs
-├── verify/     # Verification reports
-├── report/     # Report after a general work
-├── ref/        # Not for you, but user can put some reference here
-└── archive/    # Archived docs
-
-.sdlc/state.json  # Workflow state
+.sdlc/
+├── state.json             # Workflow state
+└── docs/                  # All SDLC documentation
+    ├── spec/              # Specifications
+    ├── research/          # Research documents
+    ├── arch/              # Architecture cache
+    ├── understand/        # Understanding reports
+    ├── pencil/            # Wireframes and designs
+    ├── cr/                # Code review reports
+    ├── verify/            # Verification reports
+    ├── test/              # Test reports
+    ├── secure/            # Security reports
+    ├── debug/             # Debug reports
+    ├── commits/           # Commit logs
+    ├── pr/                # PR logs
+    └── archive/           # Archived documents
 ```
 
 ## Best Practices
@@ -226,8 +233,8 @@ When routing to a workflow, invoke:
 
 | Skill          | Creates Files                            | Purpose                                    |
 | -------------- | ---------------------------------------- | ------------------------------------------ |
-| `understand`   | ✅ Yes (`docs/arch/`, `docs/understand/`) | Architecture cache, reusable documentation |
-| `cr`           | ✅ Yes (`docs/cr/`)                       | Code review report with findings           |
+| `understand`   | ✅ Yes (`.sdlc/docs/arch/`, `.sdlc/docs/understand/`) | Architecture cache, reusable documentation |
+| `cr`           | ✅ Yes (`.sdlc/docs/cr/`)                 | Code review report with findings           |
 | `explore/read` | ❌ No                                     | Quick inspection, no artifacts             |
 
 ### When to use which
@@ -237,12 +244,12 @@ When routing to a workflow, invoke:
   - Just use Read/Glob tools and explain
 
 - **User says "understand/analyze architecture/map codebase/build context"** → Invoke `/sdlc understand`
-  - Creates architecture cache in `docs/arch/`
-  - Generates understanding report in `docs/understand/`
+  - Creates architecture cache in `.sdlc/docs/arch/`
+  - Generates understanding report in `.sdlc/docs/understand/`
   - For reuse across multiple tasks
 
 - **User says "review/check/audit/assess/find issues"** → Invoke `/sdlc cr`
-  - Creates code review report in `docs/cr/`
+  - Creates code review report in `.sdlc/docs/cr/`
   - Finds bugs, security issues, quality problems
 
 ## Context Extraction
@@ -261,7 +268,7 @@ if [ -f .sdlc/state.json ]; then
 fi
 
 # Get latest spec
-latest_spec=$(find docs/spec -name "*.md" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")
+latest_spec=$(find .sdlc/docs/spec -name "*.md" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")
 ```
 
 ## Execution Feedback
