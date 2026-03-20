@@ -1,8 +1,8 @@
 # /pr
 
-/pr generates pull request titles and descriptions based on code changes and feature logic. Works standalone or within SDLC workflows.
+Generate pull request content that explains **why** the change exists and **what** it achieves.
 
-**Purpose**: Generate PR content that describes what changed and why, from a feature/logic perspective
+**Core Principle**: A good PR describes the purpose and impact, not a laundry list of changes.
 
 ## Usage
 
@@ -10,317 +10,178 @@
 /pr [base-branch]
 ```
 
-**Arguments:**
-- `base-branch` (optional): The base branch to compare against
-  - **Priority**: Command arg > state.json config > default (`origin/main`)
-  - Format: `origin/main` or just `main` (auto-prefixed with remote)
-  - Can be remote branch (`origin/develop`) or local branch (`feature-branch`)
+| Priority | Method | Example |
+|----------|--------|---------|
+| 1 (highest) | Command arg | `/pr develop` |
+| 2 | state.json `pr.base_branch` | See config below |
+| 3 (lowest) | Default | `origin/main` |
 
-**Configuration (state.json):**
+### Configuration (state.json)
+
 ```json
 {
   "pr": {
-    "base_branch": "origin/main",  // Default base branch for PRs
-    "remote": "origin"             // Remote name (for short-form args)
+    "base_branch": "origin/main",
+    "remote": "origin"
   }
 }
 ```
 
-**Actions:**
-- No argument: Generate PR title and description
-- `status` - Check PR status
-- `merge` - Show merge readiness status
+## What Makes a Good PR?
 
-**Examples:**
-- `/pr` - Generate PR title and description against main
-- `/pr develop` - Generate PR content against develop branch
-- `/pr status` - Check current PR status
-- `/pr merge` - Show merge readiness status
+**Answer these three questions:**
 
-**Standalone Use:**
-```bash
-# Use anytime without SDLC workflow
-/pr
-/pr develop
+1. **Why?** - What problem motivated this change?
+2. **What?** - What is the user-facing impact?
+3. **How?** - Technical details (only if necessary for understanding)
+
+**Bad PR Example:**
 ```
-
-**SDLC Workflow Use:**
-```bash
-# Part of SDLC workflow - includes review requirements
-/sdlc pr
-/sdlc pr status
-/sdlc pr merge
+- Added function A
+- Modified file B
+- Updated class C
+- Refactored module D
 ```
+← This tells me nothing about the purpose.
 
-## Commit Style Pattern
+**Good PR Example:**
+```
+## Summary
+Fix authentication timeout that caused users to be logged out after 5 minutes of inactivity.
 
-The project uses conventional commits with lowercase prefixes:
+### Changes
+- Increased JWT token expiry to 24 hours
+- Added refresh token mechanism for seamless session renewal
+- Users stay logged in across browser sessions
+```
+← Clear purpose, clear impact.
 
-- `bugfix:` - Bug fixes
-- `feat:` - New features
-- `command:` - Command-related changes
-- `chore:` - Chores/maintenance
-- `mv:` - File/directory moves
-- `doc:` - Documentation changes
-- `perf:` - Performance improvements
+## Process
 
-## PR Generation Process
-
-### 0. Determine Base Branch (Priority Order)
-
-1. **Command argument** (highest): `/pr develop` or `/pr origin/develop`
-2. **state.json config**: `pr.base_branch`
-3. **Default** (lowest): `origin/main`
-
-### 1. Fetch Remote Base Branch (First - Blocking)
-
-**Critical: Must complete before any git operations**
+### 1. Fetch & Diff
 
 ```bash
-# Extract remote and branch from base_branch (e.g., "origin/main" -> remote="origin", branch="main")
-git fetch origin <branch>  # If base_branch is "origin/main", fetch "main"
+git fetch origin <branch>           # Get latest remote
+git diff origin/<branch>..HEAD       # What changed
+git diff origin/<branch>..HEAD --stat  # File overview
 ```
 
-**Important:** Run this step first and wait for completion. Do NOT run in parallel with subsequent git commands.
+### 2. Understand the Change
 
-### 2. Understand Code Changes
+Ask yourself:
+- What problem is being solved?
+- Who benefits? How?
+- What was broken/missing before?
+- What is the user-facing change?
 
-**Use the resolved base_branch from Step 0**
+### 3. Write Title
 
-```bash
-# Use the full branch ref (e.g., origin/main, origin/develop, or local branch)
-git log <resolved_base_branch>..HEAD --oneline    # Reference: commit history for context
-git diff <resolved_base_branch>..HEAD             # Primary: full diff - what actually changed
-git diff <resolved_base_branch>..HEAD --stat      # Overview: changed files summary
-```
+- Format: `[prefix]: [description]`
+- Lowercase, under 72 chars
+- Describe the **outcome**, not the action
 
-**Example (default origin/main):**
-```bash
-git log origin/main..HEAD --oneline
-git diff origin/main..HEAD
-git diff origin/main..HEAD --stat
-```
+| Bad | Good |
+|-----|------|
+| `feat: add login function` | `feat: implement user authentication` |
+| `refactor: rename files` | `refactor: unify provider command interface` |
+| `fix: bug in auth` | `fix: resolve authentication timeout issue` |
 
-**Example (local branch):**
-```bash
-git log my-feature..HEAD --oneline
-git diff my-feature..HEAD
-```
+### 4. Write Description
 
-**Focus on the diff** - The commit messages are only for context. The diff tells you:
-- What features were added/removed/modified
-- How the code logic changed
-- What the user-facing impact is
-
-### 3. Write PR Title
-
-- Follow commit message style: `[prefix]: [brief description]`
-- Use lowercase, keep under 72 characters
-- If multiple commit types, use dominant one or `feat:`
-- Describe the feature/logic change, not a summary of commits
-
-### 4. Write PR Description
-
-**Focus on feature logic and user impact, not commit history:**
-
-- Start with brief summary (1-2 sentences) - what problem was solved
-- Organize by **functional areas** or **logical changes**, not by commits
-- **Major**: Core features, significant logic changes, user-facing functionality
-- **Minor**: Implementation details, refactoring, cleanup
-- Describe the end result and user-facing impact
-- Think: "What would a reviewer need to know to understand this change?"
-
-### 5. Test Plan (Optional)
-
-- Add checklist with `- [ ]` for unchecked items
-- Focus on critical paths and edge cases
-
-## PR Output Format
-
+**Structure:**
 ```markdown
 ## Summary
-[1-2 sentences: What problem was solved? What's the user-facing change?]
+[1-2 sentences: Why did we do this? What problem did it solve?]
 
-### Major: [Functional Area]
-- [Feature/logic change and its impact]
-- [Feature/logic change and its impact]
+### Major
+[Core changes that define this PR - the main purpose and impact]
 
-### Minor: [Implementation Details]
-- [Refactoring, cleanup, or internal changes]
+### Minor
+[Supporting changes - refactoring, cleanup, internal improvements]
 ```
 
-## Test Plan
-- [ ] [Test case 1]
-- [ ] [Test case 2]
-```
+**Major** = The "main thing" this PR accomplishes
+- What problem did we solve?
+- What is the user-facing impact?
+- What behavior changed?
 
-## PR Examples
+**Minor** = Supporting work
+- Code cleanup, refactoring
+- Internal optimizations
+- Non-user-facing changes
 
-**Input commits:**
-```
-feat: add user authentication
-feat: add login form with validation
-bugfix: fix token validation edge cases
-chore: update dependencies
-```
+**Tips:**
+- Focus on **outcomes**, not activities
+- Bad: "Added function A, renamed file B"
+- Good: "Simplified provider management with unified interface"
 
-**Output PR:**
-```
-refactor: unified provider command with interactive mode
+## Examples
 
-## Summary
-Consolidates fragmented provider management commands into a single interactive command, simplifying user workflow and improving code maintainability.
+### Example 1: Bug Fix
 
-### Major: Provider Command UX
-- Interactive mode replaces separate add/list/delete commands with a unified interface
-- UUID-based lookups replace name-based operations for more reliable provider identification
-- Single entry point for all provider operations (add, list, get, update, delete)
+**Title:** `fix: resolve authentication timeout during file uploads`
 
-### Minor: Implementation
-- Rename add.go to provider_add.go for consistency with new structure
-- Add UUID-based CRUD methods to AppManager (DeleteProviderByUUID, UpdateProviderByUUID)
-- Remove unused shell command and tool migration code
-- Clean up terminal output by removing decorative icons
-```
-
-## Create PR
-
-This skill generates the PR title and description. Use the output to create the PR manually or with your preferred tool.
-
-## SDLC Mode Features
-
-When used in SDLC workflow (`/sdlc pr`):
-
-### Enhanced PR Status Check
-
-```
-━━━ Pull Request Status ━━━
-
-PR: #45 - feat(auth): add JWT authentication
-Branch: feature/user-auth → main
-Status: Ready for review
-
-━━━ Checks ━━━
-✓ CI/CD Pipeline: Passing
-  - Lint: ✓
-  - Type Check: ✓
-  - Unit Tests: ✓ (45/45)
-  - Integration Tests: ✓ (12/12)
-  - E2E Tests: ✓ (8/8)
-
-✓ Code Coverage: 87% (target: 80%)
-✓ Security Scan: No vulnerabilities
-
-━━━ Review Status ━━━
-Required reviewers: 2
-✓ @alice - Approved
-✓ @bob - Approved
-
-━━━ Action ━━━
-Ready to merge! Use `/sdlc pr merge` to complete.
-```
-
-### Merge Requirements (SDLC Mode)
-
-**Required:**
-- All CI/CD checks passing
-- Code coverage threshold met
-- Security scan clean
-- Minimum approvals received
-- No merge conflicts
-
-### Enhanced Description Template (SDLC Mode)
-
+**Description:**
 ```markdown
-## Overview
-[Brief description]
+## Summary
+File uploads were failing for files larger than 10MB because the JWT token expired during upload. This caused users to lose work and retry uploads.
 
-## Changes
-- [Change 1]
-- [Change 2]
+### Major
+- Uploads now complete successfully regardless of file size
+- Token refresh happens automatically in the background
+- No more "authentication failed" errors during long uploads
 
-## Type of Change
-- [ ] Bug fix / New feature / Breaking change / Refactor / Documentation
-
-## Testing
-- [ ] Unit / Integration / E2E tests added
-- [ ] All tests passing
-
-## Documentation
-- [ ] Spec linked
-- [ ] API docs updated
-- [ ] README updated (if needed)
-
-## Related
-
-- Spec: `.sdlc/docs/category-feature-date.spec.md`
-- Test Report: `.sdlc/docs/category-feature-date.test.md`
-- Verification: `.sdlc/docs/category-feature-date.validate.md`
+### Minor
+- Updated token expiry check logic
+- Added retry handler for transient network errors
 ```
 
-## Best Practices
+### Example 2: Feature
 
-### PR Hygiene
-- **Keep PRs focused**: One feature or fix per PR
-- **Keep PRs small**: Easier to review and merge
-- **Use draft PRs**: For work in progress
-- **Reference issues**: Link to related issue numbers
+**Title:** `feat: add project templates for quick setup`
 
-### Tips
-- **Always fetch remote base branch first** - Ensures accurate diff
-- **Read commits and diff together** - Unified view prevents fragmentation
-- Group related commits logically
-- If many unrelated commits, suggest splitting
-- Use file paths from `git diff --stat` to be specific
+**Description:**
+```markdown
+## Summary
+Users had to manually configure each new project with the same settings. Now they can create and reuse project templates.
 
-## Completion Conditions
+### Major
+- Create projects from templates in one click
+- Templates include all settings, dependencies, and configurations
+- Reduces setup time from ~10 minutes to ~30 seconds
 
-### For PR Creation
-- [ ] PR title follows format
-- [ ] PR description complete with template
-- [ ] All related documents linked (SDLC only)
-- [ ] PR created successfully
+### Minor
+- Extracted common config patterns into template schema
+- Added template validation on save
+```
 
-### For PR Merge
-- [ ] All required approvals received (SDLC only)
-- [ ] All checks passing (SDLC only)
-- [ ] No merge conflicts
-- [ ] PR merged successfully
-- [ ] Branch deleted (if applicable)
-- [ ] PR logged to documentation (SDLC only)
+### Example 3: Refactor
+
+**Title:** `refactor: unified provider command with interactive mode`
+
+**Description:**
+```markdown
+## Summary
+Provider management was scattered across 4 separate commands with inconsistent UX. Consolidated into a single interactive command.
+
+### Major
+- Single command handles all provider operations (add, list, get, update, delete)
+- Interactive mode guides users through available actions
+- UUID-based lookups prevent errors from duplicate provider names
+
+### Minor
+- Renamed add.go to provider_add.go for consistency
+- Removed unused shell command code
+- Cleaned up terminal output formatting
+```
 
 ## State Integration
 
-### state.json Structure
-
-```json
-{
-  "pr": {
-    "base_branch": "origin/main",  // Default base branch for PRs
-    "remote": "origin"             // Remote name (for short-form args)
-  }
-}
-```
-
-### Base Branch Resolution
-
-| Method | Priority | Example |
-|--------|----------|---------|
-| Command argument | 1 (highest) | `/pr develop` or `/pr origin/develop` |
-| state.json `pr.base_branch` | 2 | Uses configured branch |
-| System default | 3 (lowest) | `origin/main` |
-
-### State Updates
-
 - **Updates**: `sdlc.phase` = `pr`
-- **Creates**: Pull request
-- **Creates**: PR log in `.sdlc/docs/category-feature-date.pr.md` (SDLC only)
-- **Requires**: `commit` phase completed (SDLC only)
-- **Next**: After merge, workflow complete (SDLC only)
+- **Creates**: PR log in `.sdlc/docs/*.pr.md` (SDLC only)
 
 ## Related Skills
 
-- `/commit` - Prerequisite: commits must exist to create PR
-- `/git` - Low-level git operations (branch, checkout, merge)
-- `/sdlc cr` - (SDLC only) Code review that happens before PR review
-- `/sdlc test` - (SDLC only) Tests that must pass for PR checks
+- `/commit` - Commits must exist before creating PR
+- `/sdlc cr` - Code review before PR review
+- `/sdlc test` - Tests that must pass
