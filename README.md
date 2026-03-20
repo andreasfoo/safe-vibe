@@ -112,6 +112,9 @@ vibely/
 └── sdlc.md                        # SDLC main documentation
 ```
 
+## Harness Showcase
+
+![showcase-oauth](resource/showcase-oauth.png)
 
 # Tingly-spec
 
