@@ -19,7 +19,7 @@ Creates detailed technical specification documents based on research findings an
    - Design the approach in your head first
 
 2. **Read Architecture Cache**
-   - Check `./.sdlc/docs/arch/` for existing architecture documents
+   - Check `./.sdlc/arch/` for existing architecture cache
    - Priority order: component → module → project overview
    - Use cached architecture info to reduce code searching and reading
    - If no relevant cache exists, generate it first with `/sdlc understand [scope]`
@@ -43,11 +43,13 @@ Architecture cache speeds up spec creation by reusing existing understanding.
 
 Priority order (most specific first):
 ```bash
-.sdlc/docs/arch/[module]/[sub]/[comp]-arch.md  # Component (~3 days)
-.sdlc/docs/arch/[module]/[sub]-arch.md          # Sub-module (~7 days)
-.sdlc/docs/arch/[module]-arch.md                # Module (~14 days)
-.sdlc/docs/arch/overview-arch.md                # Project (~30 days)
+.sdlc/arch/[module]-[sub]-[comp]-YYYYMMDD.arch.md  # Component (~3 days)
+.sdlc/arch/[module]-[sub]-YYYYMMDD.arch.md          # Sub-module (~7 days)
+.sdlc/arch/[module]-YYYYMMDD.arch.md                # Module (~14 days)
+.sdlc/arch/overview-YYYYMMDD.arch.md                # Project (~30 days)
 ```
+
+**Note**: Arch files use simplified format `scope-date.arch.md` because the directory is already isolated.
 
 ### Cache Freshness
 
@@ -58,7 +60,7 @@ TTL values are reference guidelines:
 
 If cache is expired or missing, regenerate using `/sdlc understand [scope]`.
 
-**See also**: `.sdlc/docs/arch/ARCH_CACHE_SYSTEM.md` for full documentation
+**See also**: `.sdlc/arch/ARCH_CACHE_SYSTEM.md` for full documentation
 
 ## Output Format
 
