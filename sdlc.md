@@ -13,11 +13,11 @@ Software Development Lifecycle management with intelligent intent detection and 
 
 ```bash
 # Smart mode - just describe what you want
-/sdlc understand the codebase       # → phases:understand
+/sdlc understand the codebase       # → actions:understand
 /sdlc fix the login bug             # → workflows:bugfix
 /sdlc add user authentication       # → workflows:feature
-/sdlc review my changes             # → phases:cr
-/sdlc commit my changes             # → phases:commit
+/sdlc review my changes             # → actions:cr
+/sdlc commit my changes             # → actions:commit
 
 # Explicit commands
 /sdlc understand
@@ -32,15 +32,15 @@ Software Development Lifecycle management with intelligent intent detection and 
 
 | Command | Description | Skill Reference |
 |---------|-------------|-----------------|
-| `/sdlc guard [task]` | Safety guardrails before work | `phases:guard` |
-| `/sdlc understand` | Build architecture cache | `phases:understand` |
-| `/sdlc cr [scope]` | Code review - find issues | `phases:cr` |
-| `/sdlc spec [title]` | Write specification | `phases:spec` |
-| `/sdlc coding [desc]` | Write code | `phases:coding` |
-| `/sdlc test [type]` | Run tests | `phases:test` |
-| `/sdlc commit [msg]` | Commit changes | `phases:commit` |
-| `/sdlc pr [action]` | Create/manage PR | `phases:pr` |
-| `/sdlc debug [issue]` | Debug bugs | `phases:debug` |
+| `/sdlc guard [task]` | Safety guardrails before work | `actions:guard` |
+| `/sdlc understand` | Build architecture cache | `actions:understand` |
+| `/sdlc cr [scope]` | Code review - find issues | `actions:cr` |
+| `/sdlc spec [title]` | Write specification | `actions:spec` |
+| `/sdlc coding [desc]` | Write code | `actions:coding` |
+| `/sdlc test [type]` | Run tests | `actions:test` |
+| `/sdlc commit [msg]` | Commit changes | `actions:commit` |
+| `/sdlc pr [action]` | Create/manage PR | `actions:pr` |
+| `/sdlc debug [issue]` | Debug bugs | `actions:debug` |
 | `/sdlc status` | Show workflow progress | `flow:status` |
 | `/sdlc resume` | Browse recent work | `flow:resume` |
 
@@ -104,7 +104,7 @@ When `/sdlc` receives input:
    - Feature: `add|new feature|implement|添加|新功能` → `workflows:feature`
    - Refactor: `refactor|clean up|重构` → `workflows:refactor`
 
-3. **Detect phase intents**
+3. **Detect action intents**
    - Understand (creates cache): `understand|analyze architecture|build context`
    - Explore (lightweight): `explore|show me|how does|explain|what is`
    - Review: `review|check|audit|find issues|检查`
@@ -122,21 +122,21 @@ When `/sdlc` receives input:
 
 ## Skill Invocation Map
 
-### Phase Skills
+### Action Skills
 ```
-/sdlc guard     → phases:guard
-/sdlc understand → phases:understand
-/sdlc cr        → phases:cr
-/sdlc spec      → phases:spec
-/sdlc harness   → phases:harness
-/sdlc coding    → phases:coding
-/sdlc test      → phases:test
-/sdlc validate  → phases:validate
-/sdlc commit    → phases:commit
-/sdlc pr        → phases:pr
-/sdlc debug     → phases:debug
-/sdlc research  → phases:research
-/sdlc secure    → phases:secure
+/sdlc guard     → actions:guard
+/sdlc understand → actions:understand
+/sdlc cr        → actions:cr
+/sdlc spec      → actions:spec
+/sdlc harness   → actions:harness
+/sdlc coding    → actions:coding
+/sdlc test      → actions:test
+/sdlc validate  → actions:validate
+/sdlc commit    → actions:commit
+/sdlc pr        → actions:pr
+/sdlc debug     → actions:debug
+/sdlc research  → actions:research
+/sdlc secure    → actions:secure
 ```
 
 ### Workflow Skills
@@ -207,5 +207,5 @@ Always show detected intent:
 
 **When to use:**
 - User says "explore/explain/how does" → Just read and explain (no skill)
-- User says "understand/analyze architecture" → Execute `phases:understand`
-- User says "review/check/find issues" → Execute `phases:cr`
+- User says "understand/analyze architecture" → Execute `actions:understand`
+- User says "review/check/find issues" → Execute `actions:cr`
