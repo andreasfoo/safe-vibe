@@ -61,55 +61,78 @@ My prompt for ai coding with harness.
 ```
 vibely/
 ├── .sdlc/                          # SDLC configuration and documentation
-│   └── harness/                    # Harness configuration files
-│       ├── sdlc-documentation-structure-20260319.harness.md
-│       └── sdlc-documentation-system-20260319.harness.md
-├── commands/                       # AI coding commands documentation
-│   ├── codeclean.md               # Code cleaning and refactoring guide
-│   ├── codereview.md              # Code review process
-│   ├── discuss.md                 # Discussion documentation
-│   ├── new-command.md             # New command creation guide
-│   ├── pencil.md                  # Pencil tool documentation
-│   ├── spec.md                    # Specification writing guide
-│   └── specreview.md              # Specification review process
-├── flow/                          # Workflow and flow documentation
-│   ├── resume.md                  # Resume/continuation flow
-│   └── status.md                  # Status tracking flow
-├── foundation/                    # Foundation and core concepts
-│   ├── README.md                  # Foundation overview
-│   ├── archive.md                 # Archive management
-│   ├── cache.md                   # Caching strategies
-│   ├── discuss.md                 # Discussion protocols
-│   ├── doc.md                     # Documentation standards
-│   ├── git-resolve.md             # Git conflict resolution
-│   ├── git.md                     # Git workflows
-│   ├── handoff.md                 # Handoff procedures
-│   └── pencil.md                  # Pencil framework
-├── phases/                        # Development phases documentation
-│   ├── coding.md                  # Coding phase
-│   ├── commit.md                  # Commit phase
-│   ├── cr.md                      # Code review phase
-│   ├── debug.md                   # Debugging phase
-│   ├── guard.md                   # Guard/validation phase
-│   ├── harness.md                 # Harness integration phase
-│   ├── pr.md                      # Pull request phase
-│   ├── research.md                # Research phase
-│   ├── secure.md                  # Security phase
-│   ├── spec.md                    # Specification phase
-│   ├── test.md                    # Testing phase
-│   ├── understand.md              # Understanding/analysis phase
-│   └── validate.md                # Validation phase
-├── workflows/                     # Workflow definitions
-│   ├── bugfix.md                  # Bug fix workflow
-│   ├── feature.md                 # Feature development workflow
-│   ├── minor.md                   # Minor changes workflow
-│   ├── refactor.md                # Refactoring workflow
-│   └── research.md                # Research workflow
-├── .gitignore                     # Git ignore rules
-├── README.md                      # This file
-├── SDLC.README.md                 # SDLC detailed documentation
-├── c.md                           # Configuration/notes file
-└── sdlc.md                        # SDLC main documentation
+│   ├── README.md                   # SDLC directory overview
+│   ├── arch/                       # Architecture documentation
+│   │   ├── cache-metadata.json     # Architecture cache metadata
+│   │   ├── overview-20240319.arch.md
+│   │   ├── sdlc-skill-20240319.arch.md
+│   │   └── skills-20240319.arch.md
+│   ├── archive/                    # Archived documents
+│   │   └── pencil/                 # Pencil-generated archives
+│   ├── cache/                      # Cache directory
+│   ├── harness/                    # Harness configuration files
+│   │   ├── sdlc-documentation-structure-20260319.harness.md
+│   │   └── sdlc-documentation-system-20260319.harness.md
+│   ├── meta/                       # Metadata storage
+│   └── state.json                  # SDLC state tracking
+├── actions/                        # SDLC action definitions (slash commands)
+│   ├── coding.md                   # /coding - Coding phase
+│   ├── commit.md                   # /commit - Commit phase
+│   ├── cr.md                       # /cr - Code review phase
+│   ├── debug.md                    # /debug - Debugging phase
+│   ├── discuss.md                  # /discuss - Discussion
+│   ├── guard.md                    # /guard - Guard/validation
+│   ├── handoff.md                  # /handoff - Handoff procedures
+│   ├── harness.md                  # /harness - Harness integration
+│   ├── pr.md                       # /pr - Pull request
+│   ├── research.md                 # /research - Research phase
+│   ├── secure.md                   # /secure - Security phase
+│   ├── spec.md                     # /spec - Specification phase
+│   ├── test.md                     # /test - Testing phase
+│   ├── understand.md               # /understand - Understanding/analysis
+│   └── validate.md                 # /validate - Validation phase
+├── commands/                       # Extended commands and utilities
+│   ├── archive.md                  # /archive - Archive management
+│   ├── codeclean.md                # /codeclean - Code cleaning
+│   ├── discuss.md                  # Discussion documentation
+│   ├── handoff.md                  # Handoff procedures
+│   ├── new-command.md              # /new-command - Create new commands
+│   ├── optimize-go-test.md         # Go test optimization
+│   ├── refactor-frontend.md        # /refactor-frontend - Frontend refactoring
+│   ├── refactor-go.md              # /refactor-go - Go refactoring
+│   ├── refactor.md                 # /refactor - General refactoring
+│   ├── research.md                 # Research documentation
+│   ├── review-branch.md            # /review-branch - Branch review
+│   ├── review-refactor.md          # /review-refactor - Refactor review
+│   ├── test-go.md                  # /test-go - Go testing
+│   └── update-arch.md              # /update-arch - Architecture updates
+├── flow/                           # Flow control and state management
+│   ├── resume.md                   # /sdlc resume - Resume workflow
+│   └── status.md                   # /sdlc status - Status tracking
+├── utils/                          # Utility skills and tools
+│   ├── README.md                   # Utilities overview
+│   ├── archive.md                  # Archive utility
+│   ├── cache.md                    # Cache utility
+│   ├── doc.md                      # Documentation utility
+│   ├── git-resolve.md              # Git conflict resolution
+│   ├── git.md                      # Git utility
+│   └── pencil.md                   # Pencil framework utility
+├── workflows/                      # Workflow definitions
+│   ├── bugfix.md                   # Bug fix workflow
+│   ├── feature.md                  # Feature development workflow
+│   ├── minor.md                    # Minor changes workflow
+│   ├── refactor.md                 # Refactoring workflow
+│   └── research.md                 # Research workflow
+├── resource/                       # Resource files
+│   └── showcase-oauth.png          # OAuth showcase image
+├── scripts/                        # Utility scripts
+│   └── migrate-paths.sh            # Path migration script
+├── .gitignore                      # Git ignore rules
+├── README.md                       # This file
+├── c.md                            # Configuration/notes file
+├── pixel-art.md                    # Pixel art skill
+├── pixel-spinner.md                # Pixel spinner skill
+└── sdlc.md                         # SDLC main documentation
 ```
 
 ## Harness Showcase
