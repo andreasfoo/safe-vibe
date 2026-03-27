@@ -97,37 +97,48 @@ After collecting responses:
 
 ### 4. Skill Update
 
+**CRITICAL: Only update global commands in `~/.claude/commands/`**
+
+This skill ONLY edits global commands located at:
+- **Global skills**: `~/.claude/commands/*.md`
+- **DO NOT edit** project-local skills (`actions/`, `workflows/`, `utils/`)
+
 If user approves updates:
 
-1. **Backup current version**: Copy skill file to `.sdlc/changelog/backup/`
-   - Format: `skillname-v[old-version]-[date].md.bak`
-   - Example: `discuss-v1.0.0-20260326.md.bak`
+1. **Verify skill location**
+   - Check if skill exists at `~/.claude/commands/[skillname].md`
+   - If NOT in global commands → inform user, provide feedback only (no auto-edit)
+   - Always display **absolute paths** to avoid confusion
 
-2. **Update skill file**: Use `Edit` tool to apply changes
+2. **Backup current version**: Copy to project's `.sdlc/changelog/backup/`
+   ```bash
+   cp ~/.claude/commands/feedback.md .sdlc/changelog/backup/feedback-v1.0.0-20260326.md.bak
+   ```
 
-3. **Increment version**: Update version number at bottom of skill file
+3. **Update skill file**: Use `Edit` tool on global command
+   ```
+   Edit ~/.claude/commands/feedback.md  # ✅ Absolute path
+   ```
+
+4. **Increment version**: Update version at bottom of skill file
    - Example: `v1.0.0` → `v1.1.0`
 
-4. **Create changelog entry**: Write to `.sdlc/changelog/`
-   - Format: `skillname-v[new-version]-[date].changelog.md`
-   - Example: `discuss-v1.1.0-20260326.changelog.md`
+5. **Create changelog**: Write to project's `.sdlc/changelog/`
+   ```
+   .sdlc/changelog/feedback-v1.1.0-20260326.changelog.md
+   ```
 
-**Files Created:**
+**Example Paths (Always Absolute):**
 ```
-.sdlc/changelog/
-├── discuss-v1.1.0-20260326.changelog.md    # What changed
-└── backup/
-    └── discuss-v1.0.0-20260326.md.bak      # Backup of old version
+Source:    /Users/username/.claude/commands/feedback.md
+Backup:    /Users/username/Project/vibely/.sdlc/changelog/backup/feedback-v1.0.0-20260326.md.bak
+Changelog: /Users/username/Project/vibely/.sdlc/changelog/feedback-v1.1.0-20260326.changelog.md
 ```
 
 **Recovery:**
-To restore a previous version:
 ```bash
-# Find the backup you want
-ls .sdlc/changelog/backup/discuss-*.md.bak
-
-# Copy back to skill location
-cp .sdlc/changelog/backup/discuss-v1.0.0-20260326.md.bak actions/discuss.md
+# Restore from backup
+cp .sdlc/changelog/backup/feedback-v1.0.0-20260326.md.bak ~/.claude/commands/feedback.md
 ```
 
 ## Output Structure
@@ -141,6 +152,7 @@ Save to: `.sdlc/docs/feedback-[skill-name]-[date].feedback.md`
 # Feedback: [Skill Name]
 
 **Date**: 2026-03-26
+**Skill Location**: /Users/username/.claude/commands/feedback.md
 **Session Context**: [Brief 1-line description]
 
 ## User Feedback
@@ -155,9 +167,9 @@ Save to: `.sdlc/docs/feedback-[skill-name]-[date].feedback.md`
 
 ## Status
 - [x] User approved
-- [x] Backup created: `.sdlc/changelog/backup/discuss-v1.0.0-20260326.md.bak`
-- [x] Skill updated: `actions/discuss.md` v1.0.0 → v1.1.0
-- [x] Changelog: `.sdlc/changelog/discuss-v1.1.0-20260326.changelog.md`
+- [x] Backup: `.sdlc/changelog/backup/feedback-v1.0.0-20260326.md.bak`
+- [x] Updated: `/Users/username/.claude/commands/feedback.md` v1.0.0 → v1.1.0
+- [x] Changelog: `.sdlc/changelog/feedback-v1.1.0-20260326.changelog.md`
 ```
 
 ### Changelog Document
@@ -198,9 +210,11 @@ Save to: `.sdlc/changelog/[skill-name]-[version]-[date].changelog.md`
 **After completion**: `/feedback discuss`
 
 ```markdown
-I'll help collect feedback on the `discuss` skill you just used.
+I'll help collect feedback on the `discuss` skill.
 
 ## Context
+- **Skill**: /discuss (global command)
+- **Location**: /Users/username/.claude/commands/discuss.md
 - Topic: State management for React
 - Presented 3 approaches
 - Asked 1 clarifying question
@@ -226,22 +240,31 @@ I'll help collect feedback on the `discuss` skill you just used.
 2. **Reduce follow-up questions**
    - Present → choose → details (skip "needs" question)
 
-Apply these changes to `actions/discuss.md`?
+Apply these changes to `/Users/username/.claude/commands/discuss.md`?
 ```
 
 **If approved**:
-- Backs up current version to `.sdlc/changelog/backup/discuss-v1.0.0-20260326.md.bak`
-- Updates `actions/discuss.md` → v1.1.0
+- Backs up to `.sdlc/changelog/backup/discuss-v1.0.0-20260326.md.bak`
+- Updates `/Users/username/.claude/commands/discuss.md` → v1.1.0
 - Creates `.sdlc/changelog/discuss-v1.1.0-20260326.changelog.md`
 - Saves `.sdlc/docs/feedback-discuss-20260326.feedback.md`
 
 ## When to Use
 
-- ✅ After completing any skill execution
-- ✅ When user explicitly requests feedback: `/feedback`
+- ✅ After executing any **global command** (`/feedback`, `/discuss`, `/commit`, etc.)
+- ✅ When user explicitly requests feedback
 - ✅ Periodically for frequently-used skills
+- ❌ Not for project-local skills (`actions/`, `workflows/`, `utils/`)
 - ❌ Not during workflow execution (wait until complete)
 - ❌ Not for simple utility commands (git, cache)
+
+## Scope Limitation
+
+**This skill ONLY edits global commands:**
+- ✅ Files in `~/.claude/commands/*.md`
+- ❌ Project files in `actions/`, `workflows/`, `utils/`
+
+**Why?** Project-local skills are version-controlled and team-shared. Global commands are user-specific configurations.
 
 ## Dependencies
 
@@ -260,4 +283,4 @@ Good feedback collection should:
 
 ---
 
-**Version**: 1.0.0 | **Created**: 2026-03-26
+**Version**: 1.1.0 | **Updated**: 2026-03-26

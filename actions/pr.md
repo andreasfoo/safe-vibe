@@ -87,15 +87,17 @@ Ask yourself:
 
 ### 3. Write Title
 
-- Format: `[prefix]: [description]`
+- Format: `[prefix](scope): [description]`
+- Prefixes: `bugfix`, `feat`, `refactor`, `doc`, `build`, `test`, `chore`
+- Scope: module/area affected (e.g., `server`, `protocol`, `bot`, `frontend`). Use comma for multiple: `bot,smart_guide`
 - Lowercase, under 72 chars
 - Describe the **outcome**, not the action
 
 | Bad | Good |
 |-----|------|
-| `feat: add login function` | `feat: implement user authentication` |
-| `refactor: rename files` | `refactor: unify provider command interface` |
-| `fix: bug in auth` | `fix: resolve authentication timeout issue` |
+| `feat: add login function` | `feat(auth): implement user authentication` |
+| `refactor: rename files` | `refactor(command): unify provider command interface` |
+| `fix: bug in auth` | `bugfix(server): resolve authentication timeout issue` |
 
 ### 4. Write Description
 
@@ -134,7 +136,7 @@ The skill returns PR information based on `auto_push` setting:
 ```markdown
 ## Pull Request Ready
 
-**Title**: feat: implement user authentication
+**Title**: feat(auth): implement user authentication
 
 **Description**:
 [Generated PR description]
@@ -154,7 +156,7 @@ gh pr create --title "feat: implement user authentication" --body "..." --base o
 
 ### Example 1: Bug Fix
 
-**Title:** `fix: resolve authentication timeout during file uploads`
+**Title:** `bugfix(upload): resolve authentication timeout during file uploads`
 
 **Description:**
 ```markdown
@@ -173,7 +175,7 @@ File uploads were failing for files larger than 10MB because the JWT token expir
 
 ### Example 2: Feature
 
-**Title:** `feat: add project templates for quick setup`
+**Title:** `feat(project): add project templates for quick setup`
 
 **Description:**
 ```markdown
@@ -192,7 +194,7 @@ Users had to manually configure each new project with the same settings. Now the
 
 ### Example 3: Refactor
 
-**Title:** `refactor: unified provider command with interactive mode`
+**Title:** `refactor(command): unified provider command with interactive mode`
 
 **Description:**
 ```markdown
