@@ -74,14 +74,21 @@ Fix authentication timeout that caused users to be logged out after 5 minutes of
 
 ### 1. Resolve Base & Diff
 
+**Use `/utils:branch` for intelligent branch context detection:**
+
+```
+"Analyze git state to detect current branch and base branch using merge-base analysis and branch patterns"
+```
+
+If HIGH/MEDIUM confidence, use detected base. If LOW, ask user to specify.
+
 **By default, use local refs only (no `git fetch`).** This ensures the diff reflects exactly what's on disk, including unpushed commits.
 
 ```bash
 # Step 1: Resolve base branch (in priority order)
 # 1. Command arg: /pr develop → base = "refs/heads/develop"
 # 2. state.json pr.base_branch: "main" → base = "refs/heads/main"
-# 3. Auto-detect via git merge-base:
-#    git merge-base --fork-point HEAD refs/heads/main || git merge-base --fork-point HEAD refs/heads/master
+# 3. Use /utils:branch detection (merge-base + pattern analysis)
 
 # Step 2: Verify base exists locally, abort with clear error if not
 git rev-parse refs/heads/<base> || { echo "Base branch '<base>' not found locally. Use /pr --fetch or create it."; exit 1; }
@@ -166,16 +173,29 @@ The skill returns PR information based on `auto_push` setting:
 **Description**:
 [Generated PR description]
 
-**Command to create PR**:
-```bash
-gh pr create --title "feat(auth): implement user authentication" --body "..." --base main
-```
+---
+
+**Choose how to create PR:**
+
+1. **GitHub web** (create manually with prefilled title/body):
+   https://github.com/[owner]/[repo]/compare/main...bugfix/bot0328
+
+2. **GitHub CLI**:
+   ```bash
+   gh pr create --title "feat(auth): implement user authentication" --body "..." --base main
+   ```
+
+3. **Push & create manually**:
+   ```bash
+   git push -u origin bugfix/bot0328
+   # Then visit the compare link above
+   ```
 ```
 
 **With `auto_push: true`**:
 - Automatically executes `gh pr create` with generated content
 - Returns the created PR URL
-- Logs the PR creation to `.sdlc/docs/*.pr.md`
+- Logs the PR creation to `.sdlc.docs/*.pr.md`
 
 ## Examples
 
@@ -255,4 +275,4 @@ Provider management was scattered across 4 separate commands with inconsistent U
 
 ---
 
-**Version**: 1.2.0 | **Updated**: 2026-03-28
+**Version**: 1.4.0 | **Updated**: 2026-04-08
