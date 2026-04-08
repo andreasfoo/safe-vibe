@@ -41,7 +41,7 @@ Software Development Lifecycle management with intelligent intent detection and 
 | `/sdlc commit [msg]` | Commit changes | `actions:commit` |
 | `/sdlc pr [action]` | Create/manage PR | `actions:pr` |
 | `/sdlc simplify [scope]` | Simplify changed code | `actions:simplify` |
-| `/sdlc compare [branch]` | Verify branch consistency | `actions:compare` |
+| `/sdlc regression [branch]` | Check for regressions | `actions:regression` |
 | `/sdlc debug [issue]` | Debug bugs | `actions:debug` |
 | `/sdlc discuss [topic]` | Technical discussion | `actions:discuss` |
 | `/sdlc handoff [task]` | Delegate to subagent | `actions:handoff` |
@@ -86,7 +86,7 @@ Software Development Lifecycle management with intelligent intent detection and 
 
 ### File Naming: `category-feature-date.type.md`
 
-**Document Types**: `spec`, `coding`, `test`, `cr`, `debug`, `research`, `validate`, `secure`, `commit`, `pr`, `guard`, `harness`, `arch`, `feedback`, `compare`
+**Document Types**: `spec`, `coding`, `test`, `cr`, `debug`, `research`, `validate`, `secure`, `commit`, `pr`, `guard`, `harness`, `arch`, `feedback`, `regression`
 
 ---
 
@@ -100,7 +100,7 @@ When `/sdlc` receives input:
 
 1. **Check explicit commands first**
    ```
-   guard|understand|cr|spec|harness|coding|test|validate|commit|pr|debug|research|secure|discuss|handoff|feedback|status|resume|simplify|compare
+   guard|understand|cr|spec|harness|coding|test|validate|commit|pr|debug|research|secure|discuss|handoff|feedback|status|resume|simplify|regression
    ```
    → Execute corresponding skill directly
 
@@ -130,24 +130,24 @@ When `/sdlc` receives input:
 
 ### Action Skills
 ```
-/sdlc guard     → actions:guard
+/sdlc guard      → actions:guard
 /sdlc understand → actions:understand
-/sdlc cr        → actions:cr
-/sdlc spec      → actions:spec
-/sdlc harness   → actions:harness
-/sdlc coding    → actions:coding
-/sdlc test      → actions:test
-/sdlc validate  → actions:validate
-/sdlc commit    → actions:commit
-/sdlc pr        → actions:pr
-/sdlc debug     → actions:debug
-/sdlc research  → actions:research
-/sdlc secure    → actions:secure
-/sdlc discuss   → actions:discuss
-/sdlc handoff   → actions:handoff
-/sdlc simplify  → actions:simplify
-/sdlc compare   → actions:compare
-/sdlc feedback  → feedback
+/sdlc cr         → actions:cr
+/sdlc spec       → actions:spec
+/sdlc harness    → actions:harness
+/sdlc coding     → actions:coding
+/sdlc test       → actions:test
+/sdlc validate   → actions:validate
+/sdlc commit     → actions:commit
+/sdlc pr         → actions:pr
+/sdlc debug      → actions:debug
+/sdlc research   → actions:research
+/sdlc secure     → actions:secure
+/sdlc discuss    → actions:discuss
+/sdlc handoff    → actions:handoff
+/sdlc simplify   → actions:simplify
+/sdlc regression → actions:regression
+/sdlc feedback   → feedback
 ```
 
 ### Workflow Skills
@@ -171,6 +171,7 @@ utils:archive     - Archive documentation
 utils:cache       - Manage architecture cache
 utils:doc         - Documentation management
 utils:git         - Git operations
+utils:branch      - Branch and base detection
 utils:git-resolve - Resolve git conflicts
 utils:pencil      - Quick note-taking
 ```

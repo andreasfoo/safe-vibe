@@ -1,39 +1,39 @@
-# /compare
+# /regression
 
-Performs detailed verification of branch changes to ensure logical consistency and prevent functional regression.
+Performs detailed regression testing to ensure branch changes don't break existing functionality.
 
-**Purpose**: Branch change validation and regression prevention
+**Purpose**: Detect functional regressions and breaking changes
 
 ## Usage
 
 ```
-/sdlc compare [source-branch] [target-branch]
+/sdlc regression [source-branch] [target-branch]
 ```
 
 **Arguments:**
-- `source-branch`: (optional) Branch to compare from - defaults to current branch
-- `target-branch`: (optional) Branch to compare against - defaults to `main`
+- `source-branch`: (optional) Branch to check - defaults to current branch
+- `target-branch`: (optional) Base branch to compare against - defaults to `main`
 
 **Examples:**
 ```bash
-# Compare current branch with main
-/sdlc compare
+# Check current branch against main
+/sdlc regression
 
-# Compare specific branches
-/sdlc compare feature/auth main
-/sdlc compare develop staging
-
-# Compare with detailed scope
-/sdlc compare feature/payment main --focus=logic
-/sdlc compare . origin/main --check=regression
+# Check specific branches
+/sdlc regression feature/auth main
+/sdlc regression develop staging
 ```
 
 ## Guideline
 
 **ALWAYS follow this sequence:**
 
-1. **Identify Comparison Scope**
-   - Determine source and target branches
+1. **Detect Branch Context** (use `/branch detect`)
+   - Get current branch name and commit
+   - Detect base branch (from args, state.json, or auto-detect)
+   - Verify both branches exist
+
+2. **Identify Comparison Scope**
    - Get list of changed files
    - Categorize changes by type and impact
 
@@ -472,6 +472,7 @@ npm run e2e
 
 ## Related Skills
 
+- **`utils:branch`** - Branch and base detection (use this for consistent branch detection)
 - **`/sdlc cr`** - Code review focuses on code quality
 - **`/sdlc test`** - Test verification
 - **`/sdlc validate`** - Active validation against harness
