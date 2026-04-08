@@ -41,6 +41,7 @@ Software Development Lifecycle management with intelligent intent detection and 
 | `/sdlc commit [msg]` | Commit changes | `actions:commit` |
 | `/sdlc pr [action]` | Create/manage PR | `actions:pr` |
 | `/sdlc simplify [scope]` | Simplify changed code | `actions:simplify` |
+| `/sdlc compare [branch]` | Verify branch consistency | `actions:compare` |
 | `/sdlc debug [issue]` | Debug bugs | `actions:debug` |
 | `/sdlc discuss [topic]` | Technical discussion | `actions:discuss` |
 | `/sdlc handoff [task]` | Delegate to subagent | `actions:handoff` |
@@ -85,7 +86,7 @@ Software Development Lifecycle management with intelligent intent detection and 
 
 ### File Naming: `category-feature-date.type.md`
 
-**Document Types**: `spec`, `coding`, `test`, `cr`, `debug`, `research`, `validate`, `secure`, `commit`, `pr`, `guard`, `harness`, `arch`, `feedback`
+**Document Types**: `spec`, `coding`, `test`, `cr`, `debug`, `research`, `validate`, `secure`, `commit`, `pr`, `guard`, `harness`, `arch`, `feedback`, `compare`
 
 ---
 
@@ -99,7 +100,7 @@ When `/sdlc` receives input:
 
 1. **Check explicit commands first**
    ```
-   guard|understand|cr|spec|harness|coding|test|validate|commit|pr|debug|research|secure|discuss|handoff|feedback|status|resume|simplify
+   guard|understand|cr|spec|harness|coding|test|validate|commit|pr|debug|research|secure|discuss|handoff|feedback|status|resume|simplify|compare
    ```
    → Execute corresponding skill directly
 
@@ -145,6 +146,7 @@ When `/sdlc` receives input:
 /sdlc discuss   → actions:discuss
 /sdlc handoff   → actions:handoff
 /sdlc simplify  → actions:simplify
+/sdlc compare   → actions:compare
 /sdlc feedback  → feedback
 ```
 
