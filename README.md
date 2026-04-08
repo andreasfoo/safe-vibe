@@ -1,6 +1,6 @@
-# Harnessly
+# SDLC-SKill
 
-My prompt for ai coding with harness and feedback
+My prompt for ai coding with intent, harness and feedback
 
 # Overview
 
@@ -231,18 +231,6 @@ vibely/
 - Implemented as `/feedback`
 
 
-# Tingly-spec
+# Appendix
 
-A markdown writing plugin (support *.md) for coding task spec writing.
-
-> https://github.com/FFengIll/tingly-spec.git
-
-## Feature
-- `@` to trigger file search and auto-completion, then the spec is feasible to use in claude code, codex and so on.
-- `#` to trigger symbol list and auto-completion in corresponding file
-
-## Example
-- `@` trigger file list and search
-- `@src/extension.tx` as result
-- `@src/extension.tx#` trigger symbol list and search
-- `@src/extension.tx:66-88 main` as result
+- A markdown writing plugin (support *.md) for coding task spec writing - https://github.com/FFengIll/vscode-tingly-spec.git
