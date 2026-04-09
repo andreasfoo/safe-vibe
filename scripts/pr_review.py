@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PR 代码审查脚本 - 自动分析 PR 改动并生成报告
+PR Code Review Script - Automatically analyze PR changes and generate report
 """
 
 import subprocess
@@ -12,7 +12,7 @@ from datetime import datetime
 
 
 def run_cmd(cmd):
-    """执行 shell 命令"""
+    """Execute shell command"""
     try:
         result = subprocess.run(
             cmd, shell=True, capture_output=True, text=True
@@ -23,25 +23,25 @@ def run_cmd(cmd):
 
 
 def get_changed_files(base_branch="HEAD~1", head="HEAD"):
-    """获取 PR 改动的文件列表"""
+    """Get list of changed files in PR"""
     cmd = f"git diff --name-only {base_branch} {head}"
     output, _ = run_cmd(cmd)
     if not output:
-        # 如果没有参数，使用 staged 改动
+        # If no args, use staged changes
         cmd = "git diff --name-only --staged"
         output, _ = run_cmd(cmd)
     return output.split("\n") if output else []
 
 
 def get_file_diff(file_path, base_branch="HEAD~1", head="HEAD"):
-    """获取单个文件的改动内容"""
+    """Get diff content for a single file"""
     cmd = f"git diff {base_branch} {head} -- {file_path}"
     output, _ = run_cmd(cmd)
     return output
 
 
 def get_file_content(file_path):
-    """读取文件当前内容"""
+    """Read current file content"""
     try:
         with open(file_path, 'r') as f:
             return f.read()
@@ -50,11 +50,11 @@ def get_file_content(file_path):
 
 
 def extract_functions(content):
-    """提取 Go 文件中的函数定义"""
+    """Extract function definitions from Go file"""
     if not content:
         return []
     
-    # 匹配函数定义 (func name, func (receiver) name)
+    # Match function definitions (func name, func (receiver) name)
     patterns = [
         r'func\s+(\w+)\s*\(',
         r'func\s+\((\w+)\s+\*?\w+)\s+(\w+)\s*\(',
@@ -74,77 +74,77 @@ def extract_functions(content):
 
 
 def check_security_issues(content):
-    """检查安全问题"""
+    """Check for security issues"""
     issues = []
     
-    # 硬编码凭证
+    # Hardcoded credentials
     if re.search(r'(password|passwd|pwd|secret|token|api_key)\s*[=:]\s*["\']', content, re.IGNORECASE):
         issues.append({
             'severity': 'HIGH',
-            'type': '硬编码凭证',
-            'description': '发现硬编码的密码或凭证'
+            'type': 'Hardcoded Credentials',
+            'description': 'Hardcoded password or credentials found'
         })
     
-    # SQL 注入
+    # SQL Injection
     if re.search(r'fmt\.Sprintf.*\s*\+\s*\w+|Execute\([^)]*\+\s*', content):
         issues.append({
             'severity': 'HIGH',
-            'type': 'SQL 注入风险',
-            'description': 'SQL 查询中使用字符串拼接'
+            'type': 'SQL Injection Risk',
+            'description': 'String concatenation in SQL queries'
         })
     
-    # 命令注入
+    # Command Injection
     if re.search(r'exec\.Command\([^,]*\+', content):
         issues.append({
             'severity': 'HIGH',
-            'type': '命令注入',
-            'description': '使用 exec.Command 时小心字符串拼接'
+            'type': 'Command Injection',
+            'description': 'Be careful with string concatenation in exec.Command'
         })
     
-    # 路径遍历
+    # Path Traversal
     if re.search(r'os\.Open\([^)]*\+', content) or re.search(r'ioutil\.ReadFile\([^)]*\+', content):
         issues.append({
             'severity': 'MEDIUM',
-            'type': '路径遍历',
-            'description': '文件操作可能存在路径遍历风险'
+            'type': 'Path Traversal',
+            'description': 'File operations may have path traversal risk'
         })
     
-    # 弱加密
+    # Weak Encryption
     if re.search(r'crypto/md5|crypto/rc4|crypto/des', content):
         issues.append({
             'severity': 'HIGH',
-            'type': '弱加密算法',
-            'description': '使用不安全的加密算法'
+            'type': 'Weak Encryption Algorithm',
+            'description': 'Using insecure encryption algorithms'
         })
     
     return issues
 
 
 def check_performance_issues(content):
-    """检查性能问题"""
+    """Check for performance issues"""
     issues = []
     
-    # N+1 查询模式
+    # N+1 Query Pattern
     if re.search(r'for\s+.*range.*\{\s*.*\.Query\(', content):
         issues.append({
             'severity': 'MEDIUM',
-            'type': 'N+1 查询',
-            'description': '循环中执行数据库查询'
+            'type': 'N+1 Query',
+            'description': 'Database queries inside loop'
         })
     
-    # 未释放资源
+    # Unreleased Resources
     if re.search(r'io\.ReadAll\([^)]*\)(?!\s*defer)', content):
         issues.append({
             'severity': 'LOW',
-            'type': '资源未释放',
-            'description': '读取的资源未显式释放'
+            'type': 'Resource Not Released',
+            'description': 'Read resources not explicitly released'
         })
     
     return issues
 
 
 def analyze_file(file_path, base_branch="HEAD~1", head="HEAD"):
-    """分析单个文件"""
+    """Analyze a single file"""
     content = get_file_content(file_path)
     diff = get_file_diff(file_path, base_branch, head)
     
@@ -164,29 +164,29 @@ def analyze_file(file_path, base_branch="HEAD~1", head="HEAD"):
 
 
 def generate_report(results, pr_info=None):
-    """生成 Markdown 报告"""
+    """Generate Markdown report"""
     report = []
-    report.append("# PR 代码审查报告\n")
+    report.append("# PR Code Review Report\n")
     
     if pr_info:
-        report.append(f"**PR 标题**: {pr_info.get('title', 'N/A')}\n")
-        report.append(f"**PR 链接**: {pr_info.get('url', 'N/A')}\n")
+        report.append(f"**PR Title**: {pr_info.get('title', 'N/A')}\n")
+        report.append(f"**PR URL**: {pr_info.get('url', 'N/A')}\n")
     
-    report.append(f"**生成时间**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    report.append(f"**改动文件数**: {len(results)}\n")
+    report.append(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    report.append(f"**Changed Files**: {len(results)}\n")
     
-    # 统计
+    # Statistics
     total_security = sum(len(r['security_issues']) for r in results if r)
     total_performance = sum(len(r['performance_issues']) for r in results if r)
     
-    report.append(f"\n## 统计概览\n")
-    report.append(f"| 类别 | 数量 |\n")
-    report.append(f"|------|------|\n")
-    report.append(f"| 安全问题 | {total_security} |\n")
-    report.append(f"| 性能问题 | {total_performance} |\n")
+    report.append(f"\n## Summary\n")
+    report.append(f"| Category | Count |\n")
+    report.append(f"|----------|-------|\n")
+    report.append(f"| Security Issues | {total_security} |\n")
+    report.append(f"| Performance Issues | {total_performance} |\n")
     
-    # 详细分析
-    report.append("\n## 文件详细分析\n")
+    # Detailed Analysis
+    report.append("\n## File Details\n")
     
     for result in results:
         if not result:
@@ -194,69 +194,69 @@ def generate_report(results, pr_info=None):
             
         report.append(f"\n### {result['path']}\n")
         
-        # 基本信息
-        report.append(f"- 代码行数: {result['line_count']}\n")
-        report.append(f"- 改动行数: {result['diff_lines']}\n")
+        # Basic Info
+        report.append(f"- Lines of Code: {result['line_count']}\n")
+        report.append(f"- Changed Lines: {result['diff_lines']}\n")
         
-        # 安全问题
+        # Security Issues
         if result['security_issues']:
-            report.append("\n#### 安全问题 ⚠️\n")
+            report.append("\n#### Security Issues ⚠️\n")
             for issue in result['security_issues']:
                 report.append(f"- **{issue['type']}** ({issue['severity']}): {issue['description']}\n")
         else:
-            report.append("\n#### 安全问题 ✅\n")
+            report.append("\n#### Security Issues ✅\n")
         
-        # 性能问题
+        # Performance Issues
         if result['performance_issues']:
-            report.append("\n#### 性能问题 ⚠️\n")
+            report.append("\n#### Performance Issues ⚠️\n")
             for issue in result['performance_issues']:
                 report.append(f"- **{issue['type']}**: {issue['description']}\n")
         else:
-            report.append("\n#### 性能问题 ✅\n")
+            report.append("\n#### Performance Issues ✅\n")
         
-        # 函数定义
+        # Function Definitions
         if result['functions']:
-            report.append("\n#### 函数定义\n")
-            report.append("| 函数名 | 行号 |\n")
-            report.append("|--------|------|\n")
-            for func in result['functions'][:10]:  # 限制显示前10个
+            report.append("\n#### Function Definitions\n")
+            report.append("| Function Name | Line Number |\n")
+            report.append("|---------------|-------------|\n")
+            for func in result['functions'][:10]:  # Limit to first 10
                 report.append(f"| {func['name']} | {func['line']} |\n")
     
     return "\n".join(report)
 
 
 def main():
-    """主函数"""
-    print("正在获取 PR 改动文件...")
+    """Main function"""
+    print("Fetching PR changed files...")
     
     files = get_changed_files()
     if not files:
-        print("未发现改动文件")
+        print("No changed files found")
         return
     
-    print(f"发现 {len(files)} 个改动文件\n")
+    print(f"Found {len(files)} changed files\n")
     
     results = []
     for file_path in files:
         if not file_path:
             continue
         
-        print(f"分析: {file_path}")
+        print(f"Analyzing: {file_path}")
         result = analyze_file(file_path)
         if result:
             results.append(result)
     
-    # 生成报告
+    # Generate Report
     report = generate_report(results)
     print("\n" + "="*50)
     print(report)
     
-    # 保存报告
+    # Save Report
     report_file = "pr_review_report.md"
     with open(report_file, 'w') as f:
         f.write(report)
     
-    print(f"\n报告已保存到: {report_file}")
+    print(f"\nReport saved to: {report_file}")
 
 
 if __name__ == "__main__":

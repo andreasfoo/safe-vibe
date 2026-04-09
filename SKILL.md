@@ -1,156 +1,156 @@
 ---
 name: pr-reviewer
-description: 自动化代码审查技能。分析 PR 中的所有改动文件，summarize 功能正确性、安全性问题、性能问题，并检查相关函数定义。触发条件：当需要审查 Pull Request、进行代码评审、检查代码改动时使用此技能。
+description: Automated Pull Request code review skill. Analyzes all changed files in a PR, summarizes functionality correctness, security issues, and performance concerns. Also checks related function definitions. Trigger: when reviewing Pull Requests, conducting code reviews, or checking code changes.
 ---
 
-# PR 代码审查技能
+# PR Code Review Skill
 
-## 概述
+## Overview
 
-此技能用于自动化审查 PR 中的代码改动，包括：
-1. 分析所有改动文件
-2. 检查功能正确性
-3. 识别安全问题
-4. 评估性能影响
-5. 验证函数定义
+This skill automatically reviews PR code changes including:
+1. Analyze all changed files
+2. Check functionality correctness
+3. Identify security issues
+4. Evaluate performance impact
+5. Verify function definitions
 
-## 工作流程
+## Workflow
 
-### Step 1: 获取 PR 改动列表
+### Step 1: Get PR Changed Files
 
-使用 Git 命令获取 PR 的所有改动文件：
+Use Git commands to get all changed files in the PR:
 
 ```bash
-# 获取 PR 的改动文件列表
+# Get list of changed files
 git diff --name-only HEAD~1 HEAD
 
-# 或者使用 gh 命令
+# Or use gh command
 gh pr view <pr-number> --json files -q '.files[].path'
 
-# 获取具体改动内容
+# Get specific diff
 git diff HEAD~1 HEAD -- file.go
 ```
 
-### Step 2: 逐文件分析
+### Step 2: Analyze Files One by One
 
-对于每个改动文件：
+For each changed file:
 
-1. **读取文件内容**
-2. **分析改动** (使用 git diff)
-3. **识别函数/方法**
-4. **检查函数定义**
+1. **Read file content**
+2. **Analyze changes** (using git diff)
+3. **Identify functions/methods**
+4. **Check function definitions**
 
-### Step 3: 分类检查清单
+### Step 3: Checklist Analysis
 
-#### 功能正确性
-- [ ] 语法正确性
-- [ ] API 调用正确
-- [ ] 错误处理
-- [ ] 边界条件
-- [ ] 单元测试覆盖
+#### Functionality Correctness
+- [ ] Syntax correctness
+- [ ] API calls are correct
+- [ ] Error handling
+- [ ] Boundary conditions
+- [ ] Unit test coverage
 
-#### 安全问题
-- [ ] SQL 注入
-- [ ] 命令注入
-- [ ] XSS 跨站脚本
-- [ ] 路径遍历
-- [ ] 硬编码凭证
-- [ ] 弱加密算法
-- [ ] 未验证的用户输入
+#### Security Issues
+- [ ] SQL injection
+- [ ] Command injection
+- [ ] XSS (Cross-Site Scripting)
+- [ ] Path traversal
+- [ ] Hardcoded credentials
+- [ ] Weak encryption algorithms
+- [ ] Unvalidated user input
 
-#### 性能问题
-- [ ] 循环中的重复计算
-- [ ] 内存泄漏风险
-- [ ] 数据库 N+1 查询
-- [ ] 不必要的副本
-- [ ] 锁竞争
+#### Performance Issues
+- [ ] Repeated calculations in loops
+- [ ] Memory leak risks
+- [ ] Database N+1 queries
+- [ ] Unnecessary copies
+- [ ] Lock contention
 
-### Step 4: 生成报告
+### Step 4: Generate Report
 
-将分析结果汇总成 Markdown 报告。
+Compile analysis results into a Markdown report.
 
-## 输出格式
+## Output Format
 
 ```markdown
-# PR 代码审查报告
+# PR Code Review Report
 
-## 概述
-- PR 标题: xxx
-- 改动文件数: N
-- 新增代码行数: xxx
-- 删除代码行数: xxx
+## Overview
+- PR Title: xxx
+- Changed Files: N
+- Lines Added: xxx
+- Lines Deleted: xxx
 
-## 文件分析
+## File Analysis
 
-### 文件 1: path/to/file.go
+### File 1: path/to/file.go
 
-#### 改动摘要
-[文件的主要改动内容]
+#### Change Summary
+[Main changes in the file]
 
-#### 功能正确性 ✓/⚠️/✗
-- [结论]
+#### Functionality Correctness ✓/⚠️/✗
+- [conclusion]
 
-#### 安全问题 ✓/⚠️/✗
-- [发现的问题列表]
+#### Security Issues ✓/⚠️/✗
+- [list of issues found]
 
-#### 性能问题 ✓/⚠️/✗
-- [发现的问题列表]
+#### Performance Issues ✓/⚠️/✗
+- [list of issues found]
 
-#### 相关函数定义
-| 函数名 | 行号 | 说明 |
-|--------|------|------|
-| FuncName | 45 | 功能描述 |
+#### Related Function Definitions
+| Function Name | Line | Description |
+|---------------|------|--------------|
+| FuncName | 45 | Function description |
 
-## 总体评估
+## Overall Assessment
 
-| 类别 | 严重程度 |
-|------|----------|
-| 阻塞问题 | N |
-| 建议修改 | N |
-| 优化建议 | N |
+| Category | Count |
+|----------|-------|
+| Blocking Issues | N |
+| Suggested Changes | N |
+| Optimization Suggestions | N |
 ```
 
-## Go 项目特定检查
+## Go Project Specific Checks
 
-### 使用 Gosec 安全扫描
+### Use Gosec for Security Scanning
 
 ```bash
 gosec -exclude=G104 ./changed/...
 ```
 
-### 使用 Golangci-lint
+### Use Golangci-lint
 
 ```bash
 golangci-lint run ./changed/...
 ```
 
-### 编译检查
+### Compilation Checks
 
 ```bash
 go build ./changed/...
 go vet ./changed/...
 ```
 
-## 常见问题模式
+## Common Issue Patterns
 
-### 安全问题模式
-| 模式 | 风险 | 推荐修复 |
-|------|------|----------|
-| `exec.Command(input)` | 命令注入 | 使用参数化命令 |
-| `fmt.Sprintf("query %s", input)` | SQL 注入 | 使用参数化查询 |
-| `http.Get(userInput)` | SSRF | 验证 URL 域名 |
-| `os.Open(userInput)` | 路径遍历 | 使用 filepath.Clean |
-| `crypto/md5` | 弱加密 | 使用 crypto/sha256 |
+### Security Issue Patterns
+| Pattern | Risk | Recommended Fix |
+|---------|------|----------------|
+| `exec.Command(input)` | Command Injection | Use parameterized commands |
+| `fmt.Sprintf("query %s", input)` | SQL Injection | Use parameterized queries |
+| `http.Get(userInput)` | SSRF | Validate URL domain |
+| `os.Open(userInput)` | Path Traversal | Use filepath.Clean |
+| `crypto/md5` | Weak Encryption | Use crypto/sha256 |
 
-### 性能问题模式
-| 模式 | 风险 | 推荐修复 |
-|------|------|----------|
-| `for _, v := range results { db.Query(v) }` | N+1 查询 | 批量查询 |
-| `append(slice, slice2...)` | 内存复制 | 预分配容量 |
-| `mutex.Lock(); longOp(); mutex.Unlock()` | 锁竞争 | 缩小锁范围 |
+### Performance Issue Patterns
+| Pattern | Risk | Recommended Fix |
+|---------|------|----------------|
+| `for _, v := range results { db.Query(v) }` | N+1 Queries | Batch queries |
+| `append(slice, slice2...)` | Memory Copy | Pre-allocate capacity |
+| `mutex.Lock(); longOp(); mutex.Unlock()` | Lock Contention | Reduce lock scope |
 
-## 参考
+## References
 
-- Gosec 规则: https://github.com/securego/gosec
+- Gosec Rules: https://github.com/securego/gosec
 - OWASP: https://owasp.org/www-project-web-security-testing-guide/
-- Go 安全最佳实践: https://golang.org/doc/articles/security
+- Go Security Best Practices: https://golang.org/doc/articles/security

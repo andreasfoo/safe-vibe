@@ -1,67 +1,67 @@
-# Go 安全问题模式参考
+# Go Security Issue Patterns Reference
 
-## 高风险模式
+## High Risk Patterns
 
-### 1. 命令注入
+### 1. Command Injection
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 cmd := exec.Command("sh", "-c", "ls "+userInput)
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
-cmd := exec.Command("ls", userInput)  // 参数化
+cmd := exec.Command("ls", userInput)  // Parameterized
 ```
 
-### 2. SQL 注入
+### 2. SQL Injection
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 db.Query("SELECT * FROM users WHERE name = '"+username+"'")
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 db.Query("SELECT * FROM users WHERE name = ?", username)
 ```
 
-### 3. 硬编码凭证
+### 3. Hardcoded Credentials
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 password := "secret123"
 apiKey := "sk-xxx"
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
-// 使用环境变量
+// Use environment variables
 password := os.Getenv("DB_PASSWORD")
-// 或使用密钥管理服务
+// Or use secret management service
 ```
 
-### 4. 路径遍历
+### 4. Path Traversal
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 data, _ := ioutil.ReadFile("/data/" + filename)
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 filename = filepath.Clean(filename)
 data, err := ioutil.ReadFile(filepath.Join("/data/", filename))
 ```
 
-### 5. SSRF (服务器端请求伪造)
+### 5. SSRF (Server-Side Request Forgery)
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 resp, _ := http.Get(url)  // url from user input
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 parsedURL, _ := url.Parse(url)
 if parsedURL.Hostname() != "allowed.example.com" {
@@ -71,54 +71,54 @@ if parsedURL.Hostname() != "allowed.example.com" {
 
 ---
 
-## 中等风险模式
+## Medium Risk Patterns
 
-### 6. 弱加密
+### 6. Weak Encryption
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 hash := md5.Sum([]byte(data))
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 hash := sha256.Sum256([]byte(data))
 ```
 
-### 7. 不安全的随机数
+### 7. Insecure Random Numbers
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 rand.Seed(time.Now().UnixNano())
 id := rand.Int()
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 id := strconv.FormatInt(time.Now().UnixNano(), 36) + "-"
 ```
 
-### 8. 缺少超时
+### 8. Missing Timeout
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 resp, _ := http.Get(url)
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 client := &http.Client{Timeout: 30 * time.Second}
 resp, err := client.Get(url)
 ```
 
-### 9. Cookie 安全
+### 9. Cookie Security
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 http.SetCookie(w, &http.Cookie{Name: "session", Value: token})
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 http.SetCookie(w, &http.Cookie{
     Name:     "session",
@@ -131,11 +131,11 @@ http.SetCookie(w, &http.Cookie{
 
 ---
 
-## 性能问题模式
+## Performance Issue Patterns
 
-### 10. N+1 查询
+### 10. N+1 Queries
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 for _, id := range userIDs {
     user := db.QueryRow("SELECT * FROM users WHERE id = ?", id)
@@ -143,15 +143,15 @@ for _, id := range userIDs {
 }
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 ids := strings.Join(userIDs, ",")
 rows, _ := db.Query("SELECT * FROM users WHERE id IN ("+ids+")")
 ```
 
-### 11. 循环中分配内存
+### 11. Memory Allocation in Loop
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 var result []string
 for _, s := range strs {
@@ -159,7 +159,7 @@ for _, s := range strs {
 }
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
 result := make([]string, len(strs))
 for i, s := range strs {
@@ -167,14 +167,14 @@ for i, s := range strs {
 }
 ```
 
-### 12. 不必要的字符串转换
+### 12. Unnecessary String Conversion
 
-**危险代码:**
+**Vulnerable Code:**
 ```go
 s := strconv.Itoa(i)
 ```
 
-**安全修复:**
+**Secure Fix:**
 ```go
-// 使用 strconv.FormatInt 或 strings.Builder
+// Use strconv.FormatInt or strings.Builder
 ```
